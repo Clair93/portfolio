@@ -127,6 +127,22 @@
   .proj-link{display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;color:var(--accent2);font-size:.85rem;text-decoration:none;border:1px solid rgba(124,106,247,.3);padding:.4rem .9rem;border-radius:7px;transition:.2s}
   .proj-link:hover{background:rgba(124,106,247,.15)}
 
+  /* PROJECT DETAILS */
+  .proj-detail-wrap{margin-top:2rem;display:flex;flex-direction:column;gap:2rem}
+  .proj-detail{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem}
+  .detail-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+  .detail-title{font-size:1.3rem;font-weight:700;color:var(--text)}
+  .detail-block{margin-bottom:1.8rem}
+  .detail-block:last-child{margin-bottom:0}
+  .detail-block h4{font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent2);margin-bottom:.7rem}
+  .detail-text{color:var(--muted);font-size:.92rem;line-height:1.7;white-space:pre-wrap}
+  .screenshot-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem;margin-bottom:.8rem}
+  .screenshot-item{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border);aspect-ratio:16/9;background:var(--bg2)}
+  .screenshot-item img{width:100%;height:100%;object-fit:cover;display:block}
+  .screenshot-remove{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.65);color:#fff;border:none;border-radius:6px;width:24px;height:24px;cursor:pointer;font-size:.75rem;line-height:1}
+  .screenshot-add-btn{padding:.6rem 1rem;background:transparent;border:2px dashed var(--border);border-radius:10px;color:var(--muted);cursor:pointer;font-size:.85rem;transition:.2s}
+  .screenshot-add-btn:hover{border-color:var(--accent);color:var(--accent2)}
+
   /* CONTACT */
   .contact-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:3rem;text-align:center}
   .contact-box p{color:var(--muted);margin-bottom:.4rem;font-size:.9rem}
@@ -191,7 +207,7 @@
 <!-- ABOUT -->
 <section id="about">
   <p class="section-label">About Me</p>
-  <h2 class="section-title">저는 이런 사람이에요</h2>
+  <h2 class="section-title"></h2>
   <div class="about-grid">
     <div class="info-card">
       <h3>기본 정보</h3>
@@ -311,7 +327,7 @@
             <div><span class="proj-tag tag-solo">Solo Project</span></div>
             <div class="proj-title">VR Beat Saber</div>
           </div>
-          <div class="proj-icon-wrap" id="vrbsIconWrap" onclick="document.getElementById('vrbsIconInput').click()" title="아이콘 업로드">
+          <div class="proj-icon-wrap" id="vrbsIconWrap" style="pointer-events: none;">
             <div class="proj-icon-placeholder" id="vrbsIconPlaceholder">🖼️<div>아이콘</div></div>
             <img id="vrbsIconImg" alt="아이콘" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
             <input type="file" id="vrbsIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'vrbsIconImg','vrbsIconPlaceholder','vrbsIconRemove')"/>
@@ -332,6 +348,147 @@
     </div>
 
   </div>
+
+  <!-- 프로젝트 상세 -->
+  <div class="proj-detail-wrap">
+
+    <!-- SnowMan's Revenge 상세 -->
+    <div class="proj-detail" id="detail-solo">
+      <div class="detail-header">
+        <div class="proj-icon-wrap" id="detailSoloIconWrap" style="pointer-events: none;">
+          <div class="proj-icon-placeholder" id="detailSoloIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
+          <img id="detailSoloIconImg" src="https://play-lh.googleusercontent.com/DzwYB3pIvBUypUr_3eJGj96Ab3eTl6fTyZVhHf-S7d7jiMpHfyPrCpQucxwpoveC7dO_fCasRgST_vPUf_bFVRQ=w480-h960-rw" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
+          <input type="file" id="detailSoloIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'detailSoloIconImg','detailSoloIconPlaceholder','detailSoloIconRemove')"/>
+        </div>
+        <div style="flex:1">
+          <div class="detail-title">SnowMan's Revenge</div>
+          <button class="yt-remove" id="detailSoloIconRemove" style="display:none" onclick="removeIcon('detailSoloIconImg','detailSoloIconPlaceholder','detailSoloIconRemove','detailSoloIconInput')">✕ 아이콘 제거</button>
+        </div>
+      </div>
+      <div class="detail-block">
+        <h4>기획의도</h4>
+        <p class="detail-text">- 플레이어 간편한 조작으로 게임을 즐기도록 설계</p>
+      </div>
+      <div class="detail-block">
+        <h4>프로젝트 스크린샷</h4>
+        <div class="screenshot-gallery" id="gallery-solo"></div>
+        <input type="file" id="ss-input-solo" accept="image/*" multiple style="display:none" onchange="addScreenshots(event,'gallery-solo')"/>
+        <button class="screenshot-add-btn" onclick="document.getElementById('ss-input-solo').click()">＋ 스크린샷 추가</button>
+      </div>
+      <div class="detail-block">
+        <h4>프로젝트 개발 및 수행 내용</h4>
+        <p class="detail-text">1. 정해진 시간마다 등장하는 적 (Spawner System)<br> - Random</p>
+      </div>
+      <div class="detail-block">
+        <h4>회고</h4>
+        <p class="detail-text">- 유니티로 만든 첫 번째 게임으로, 엉성한 면이 있지만 처음이였던 만큼 많은 것을 배울 수 있었던 게임<br>- 스크립트 오류 등 디버깅을 통해 해결을 해볼 수 있어서 좋았다. <br>- 첫 플레이 스토어에 정식 등록 된 게임</p>
+      </div>
+    </div>
+
+    <!-- 미래내일일경험 상세 -->
+    <div class="proj-detail" id="detail-team">
+      <div class="detail-header">
+        <div class="proj-icon-wrap" id="detailTeamIconWrap" style="pointer-events: none;">
+          <div class="proj-icon-placeholder" id="detailTeamIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
+          <img id="detailTeamIconImg" src="https://play-lh.googleusercontent.com/U71z8ARJH-Hhvu7QFD2Qvk0PrBIz9WTiA4HnP_CAIDqLC4IQEqs1p6TLfHuRNEw7eVeWf58UYnhQgzWAGj126UI=w240-h480-rw" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
+          <input type="file" id="detailTeamIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'detailTeamIconImg','detailTeamIconPlaceholder','detailTeamIconRemove')"/>
+        </div>
+        <div style="flex:1">
+          <div class="detail-title">미래내일일경험</div>
+          <button class="yt-remove" id="detailTeamIconRemove" style="display:none" onclick="removeIcon('detailTeamIconImg','detailTeamIconPlaceholder','detailTeamIconRemove','detailTeamIconInput')">✕ 아이콘 제거</button>
+        </div>
+      </div>
+      <div class="detail-block">
+        <h4>기획의도</h4>
+        <p class="detail-text">기획의도를 입력해 주세요.</p>
+      </div>
+      <div class="detail-block">
+        <h4>프로젝트 스크린샷</h4>
+        <div class="screenshot-gallery" id="gallery-team"></div>
+        <input type="file" id="ss-input-team" accept="image/*" multiple style="display:none" onchange="addScreenshots(event,'gallery-team')"/>
+        <button class="screenshot-add-btn" onclick="document.getElementById('ss-input-team').click()">＋ 스크린샷 추가</button>
+      </div>
+      <div class="detail-block">
+        <h4>프로젝트 관련 자료</h4>
+        <p class="detail-text">관련 자료(GitHub, 기획서, 발표자료 등) 링크를 입력해 주세요.</p>
+      </div>
+      <div class="detail-block">
+        <h4>프로젝트 개발 및 수행 내용</h4>
+        <p class="detail-text">개발 및 수행 내용을 입력해 주세요.</p>
+      </div>
+      <div class="detail-block">
+        <h4>회고</h4>
+        <p class="detail-text">프로젝트를 마치고 느낀 점을 입력해 주세요.</p>
+      </div>
+    </div>
+
+    <!-- 위인런:영웅들의 질주 상세 -->
+    <div class="proj-detail" id="detail-unirun">
+      <div class="detail-header">
+        <div class="proj-icon-wrap" id="detailUnirunIconWrap" style="pointer-events: none;">
+          <div class="proj-icon-placeholder" id="detailUnirunIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
+          <img id="detailUnirunIconImg" src="https://play-lh.googleusercontent.com/AjJ4bRFTyE3VmFKhBkyP1LXYeEb8mLocVgjeJkMoUEKIeFv4KH4AL4iVy3uGsUuzMq9pWbTYSWXYUdoLJPKdy5c=w480-h960-rw" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
+          <input type="file" id="detailUnirunIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'detailUnirunIconImg','detailUnirunIconPlaceholder','detailUnirunIconRemove')"/>
+        </div>
+        <div style="flex:1">
+          <div class="detail-title">위인런:영웅들의 질주</div>
+          <button class="yt-remove" id="detailUnirunIconRemove" style="display:none" onclick="removeIcon('detailUnirunIconImg','detailUnirunIconPlaceholder','detailUnirunIconRemove','detailUnirunIconInput')">✕ 아이콘 제거</button>
+        </div>
+      </div>
+      <div class="detail-block">
+        <h4>기획의도</h4>
+        <p class="detail-text">기획의도를 입력해 주세요.</p>
+      </div>
+      <div class="detail-block">
+        <h4>프로젝트 스크린샷</h4>
+        <div class="screenshot-gallery" id="gallery-unirun"></div>
+        <input type="file" id="ss-input-unirun" accept="image/*" multiple style="display:none" onchange="addScreenshots(event,'gallery-unirun')"/>
+        <button class="screenshot-add-btn" onclick="document.getElementById('ss-input-unirun').click()">＋ 스크린샷 추가</button>
+      </div>
+      <div class="detail-block">
+        <h4>프로젝트 개발 및 수행 내용</h4>
+        <p class="detail-text">개발 및 수행 내용을 입력해 주세요.</p>
+      </div>
+      <div class="detail-block">
+        <h4>회고</h4>
+        <p class="detail-text">프로젝트를 마치고 느낀 점을 입력해 주세요.</p>
+      </div>
+    </div>
+
+    <!-- VR Beat Saber 상세 -->
+    <div class="proj-detail" id="detail-vrbs">
+      <div class="detail-header">
+        <div class="proj-icon-wrap" id="detailVrbsIconWrap" style="pointer-events: none;">
+          <div class="proj-icon-placeholder" id="detailVrbsIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
+          <img id="detailVrbsIconImg" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
+          <input type="file" id="detailVrbsIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'detailVrbsIconImg','detailVrbsIconPlaceholder','detailVrbsIconRemove')"/>
+        </div>
+        <div style="flex:1">
+          <div class="detail-title">VR Beat Saber</div>
+          <button class="yt-remove" id="detailVrbsIconRemove" style="display:none" onclick="removeIcon('detailVrbsIconImg','detailVrbsIconPlaceholder','detailVrbsIconRemove','detailVrbsIconInput')">✕ 아이콘 제거</button>
+        </div>
+      </div>
+      <div class="detail-block">
+        <h4>기획의도</h4>
+        <p class="detail-text">기획의도를 입력해 주세요.</p>
+      </div>
+      <div class="detail-block">
+        <h4>프로젝트 스크린샷</h4>
+        <div class="screenshot-gallery" id="gallery-vrbs"></div>
+        <input type="file" id="ss-input-vrbs" accept="image/*" multiple style="display:none" onchange="addScreenshots(event,'gallery-vrbs')"/>
+        <button class="screenshot-add-btn" onclick="document.getElementById('ss-input-vrbs').click()">＋ 스크린샷 추가</button>
+      </div>
+      <div class="detail-block">
+        <h4>프로젝트 개발 및 수행 내용</h4>
+        <p class="detail-text">개발 및 수행 내용을 입력해 주세요.</p>
+      </div>
+      <div class="detail-block">
+        <h4>회고</h4>
+        <p class="detail-text">프로젝트를 마치고 느낀 점을 입력해 주세요.</p>
+      </div>
+    </div>
+
+  </div>
 </section>
 
 <!-- CONTACT -->
@@ -344,7 +501,7 @@
     <br>
     <p>📧 이메일</p>
     <p class="contact-placeholder">mjw9313@gmail.com</p>
-    <p style="color:var(--muted);font-size:.8rem;margin-top:1rem"> 010-2601-5382</p>
+    <p style="color:var(--muted);font-size:.8rem;margin-top:1rem"></p>
   </div>
 </section>
 
@@ -469,7 +626,7 @@ function removePhoto(){
 
 /* ── YOUTUBE ── */
 const YT_STORAGE_KEY = 'jw_portfolio_yt';
-const ytState = {'yt-solo':null, 'yt-team':null, 'yt-unirun':null, 'yt-vrbs':null};
+const ytState = {'yt-solo':'lpOlYOBH-10', 'yt-team':'_c5XmK_zT80', 'yt-unirun':'9dX-jGunsVo', 'yt-vrbs':'8gbsfgdyqcA'};
 try{
   const savedYt = JSON.parse(localStorage.getItem(YT_STORAGE_KEY));
   if(savedYt) Object.assign(ytState, savedYt);
@@ -548,6 +705,23 @@ function removeIcon(imgId, placeholderId, removeId, inputId){
   document.getElementById(placeholderId).style.display='flex';
   document.getElementById(removeId).style.display='none';
   document.getElementById(inputId).value='';
+}
+
+/* ── PROJECT DETAIL SCREENSHOTS ── */
+function addScreenshots(e, galleryId){
+  const files=Array.from(e.target.files||[]);
+  const gallery=document.getElementById(galleryId);
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      const item=document.createElement('div');
+      item.className='screenshot-item';
+      item.innerHTML=`<img src="${ev.target.result}" alt="스크린샷"/><button class="screenshot-remove" onclick="this.parentElement.remove()">✕</button>`;
+      gallery.appendChild(item);
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value='';
 }
 
 /* ── INIT ── */
