@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>문재원 | Developer Portfolio</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a26;
+    --accent:#7c6af7;--accent2:#a78bfa;
+    --text:#e2e2f0;--muted:#8888aa;--border:#2a2a3d;
+    --card:#161622;--danger:#ef4444;--success:#22c55e;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6}
+
+  /* NAV */
+  nav{position:fixed;top:0;width:100%;background:rgba(10,10,15,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100;padding:0 2rem}
+  .nav-inner{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+  .logo{font-weight:700;font-size:1.1rem;color:var(--accent2);letter-spacing:1px}
+  .nav-links{display:flex;gap:1.8rem;list-style:none}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.9rem;transition:.2s}
+  .nav-links a:hover{color:var(--accent2)}
+
+  /* SECTIONS */
+  section{padding:100px 2rem 60px;max-width:1100px;margin:auto}
+  .section-label{font-size:.75rem;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:.5rem}
+  h2.section-title{font-size:2rem;font-weight:700;margin-bottom:2.5rem;color:var(--text)}
+
+  /* HERO */
+  #hero{min-height:100vh;display:flex;align-items:center;max-width:100%;padding:0 2rem;background:radial-gradient(ellipse at 20% 50%,rgba(124,106,247,.12) 0%,transparent 60%)}
+  .hero-inner{max-width:1100px;margin:auto;width:100%;display:flex;align-items:center;justify-content:space-between;gap:3rem}
+  .hero-text{flex:1}
+  .hero-tag{display:inline-block;background:rgba(124,106,247,.15);border:1px solid rgba(124,106,247,.3);color:var(--accent2);padding:.3rem .9rem;border-radius:999px;font-size:.8rem;margin-bottom:1.5rem}
+  .hero-name{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:800;line-height:1.1;margin-bottom:1rem}
+  .hero-name span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero-sub{font-size:1.1rem;color:var(--muted);max-width:480px;margin-bottom:2rem}
+  .hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+  .btn{padding:.7rem 1.6rem;border-radius:8px;font-size:.9rem;cursor:pointer;transition:.2s;text-decoration:none;display:inline-block;border:none}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent2)}
+  .btn-outline{border:1px solid var(--border);background:transparent;color:var(--text)}
+  .btn-outline:hover{border-color:var(--accent);color:var(--accent2)}
+
+  /* PROFILE PHOTO */
+  .hero-photo{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:.9rem}
+  .photo-wrap{width:220px;height:220px;border-radius:50%;border:2px dashed var(--accent);background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.3s;overflow:hidden;position:relative}
+  .photo-wrap:hover{border-color:var(--accent2);box-shadow:0 0 32px rgba(124,106,247,.25)}
+  .photo-wrap img{width:100%;height:100%;object-fit:cover;display:none;position:absolute;inset:0}
+  .photo-placeholder{display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--muted);font-size:.85rem;text-align:center;padding:1rem;pointer-events:none}
+  .photo-placeholder span{font-size:2.5rem}
+  .photo-hint{font-size:.75rem;color:var(--muted);opacity:.7}
+  #photoInput{display:none}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+  .info-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+  .info-card h3{color:var(--accent2);font-size:.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem}
+  .info-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border)}
+  .info-row:last-child{border:none}
+  .info-key{color:var(--muted);font-size:.9rem}
+  .info-val{color:var(--text);font-size:.9rem;font-weight:500}
+
+  /* EXPERIENCE */
+  .exp-list{display:flex;flex-direction:column;gap:1rem}
+  .exp-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;transition:.2s}
+  .exp-card:hover{border-color:var(--accent);box-shadow:0 0 20px rgba(124,106,247,.1)}
+  .exp-left{flex:1}
+  .exp-company{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
+  .exp-role{color:var(--accent2);font-size:.9rem;margin-bottom:.3rem}
+  .exp-period{color:var(--muted);font-size:.82rem}
+  .exp-actions{display:flex;gap:.5rem;flex-shrink:0}
+  .icon-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:.35rem .6rem;cursor:pointer;font-size:.8rem;transition:.2s}
+  .icon-btn:hover{border-color:var(--accent);color:var(--accent2)}
+  .icon-btn.del:hover{border-color:var(--danger);color:var(--danger)}
+  .add-exp-btn{width:100%;margin-top:1rem;padding:1rem;background:transparent;border:2px dashed var(--border);border-radius:12px;color:var(--muted);cursor:pointer;font-size:.95rem;transition:.2s}
+  .add-exp-btn:hover{border-color:var(--accent);color:var(--accent2)}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:.2s}
+  .modal-overlay.active{opacity:1;pointer-events:all}
+  .modal{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:2rem;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+  .modal h3{font-size:1.2rem;margin-bottom:1.5rem;color:var(--text)}
+  .form-group{margin-bottom:1rem}
+  .form-group label{display:block;color:var(--muted);font-size:.83rem;margin-bottom:.4rem}
+  .form-group input,.form-group textarea{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:.65rem .9rem;font-size:.9rem;outline:none;transition:.2s;font-family:inherit}
+  .form-group input:focus,.form-group textarea:focus{border-color:var(--accent)}
+  .form-group textarea{resize:vertical;min-height:70px}
+  .modal-btns{display:flex;gap:.8rem;margin-top:1.5rem;justify-content:flex-end}
+
+  /* PROJECTS */
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:1.5rem}
+  .proj-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:.25s}
+  .proj-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 32px rgba(124,106,247,.15)}
+  .proj-header{background:linear-gradient(135deg,rgba(124,106,247,.2),rgba(167,139,250,.1));padding:1.5rem;border-bottom:1px solid var(--border)}
+  .proj-tag{display:inline-block;padding:.2rem .7rem;border-radius:999px;font-size:.73rem;font-weight:600;margin-bottom:.8rem}
+  .tag-solo{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
+  .tag-team{background:rgba(124,106,247,.15);color:var(--accent2);border:1px solid rgba(124,106,247,.3)}
+  .tag-leader{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);margin-left:.4rem}
+  .proj-title{font-size:1.2rem;font-weight:700;color:var(--text)}
+  .proj-icon-wrap{width:64px;height:64px;border-radius:10px;border:2px dashed var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;overflow:hidden;transition:.2s}
+  .proj-icon-wrap:hover{border-color:var(--accent2);box-shadow:0 0 16px rgba(124,106,247,.2)}
+  .proj-icon-placeholder{display:flex;flex-direction:column;align-items:center;font-size:.55rem;color:var(--muted);gap:2px;text-align:center;padding:4px;pointer-events:none}
+  .proj-icon-placeholder{font-size:1.3rem}
+  .proj-icon-placeholder div{font-size:.6rem}
+  .proj-body{padding:1.5rem}
+  .proj-desc{color:var(--muted);font-size:.88rem;margin-bottom:1rem}
+  .proj-meta{display:flex;flex-direction:column;gap:.4rem}
+  .proj-meta-row{display:flex;gap:.5rem;align-items:center;font-size:.82rem}
+  .meta-icon{color:var(--accent2)}
+
+  /* YOUTUBE EMBED */
+  .yt-wrap{margin-top:1rem;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;position:relative}
+  .yt-wrap iframe{width:100%;height:100%;border:none}
+  .yt-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;background:var(--bg2);color:var(--muted);font-size:.85rem;cursor:pointer;border:1px dashed var(--border);border-radius:10px;padding:1rem;text-align:center}
+  .yt-placeholder:hover{border-color:var(--danger);color:#f87171}
+  .yt-placeholder span{font-size:2rem}
+  .yt-input-row{display:flex;gap:.5rem;margin-top:.8rem}
+  .yt-input-row input{flex:1;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:7px;padding:.5rem .8rem;font-size:.82rem;outline:none}
+  .yt-input-row input:focus{border-color:#ef4444}
+  .yt-input-row button{background:#ef4444;color:#fff;border:none;border-radius:7px;padding:.5rem .9rem;cursor:pointer;font-size:.82rem;white-space:nowrap}
+  .yt-input-row button:hover{background:#dc2626}
+  .yt-remove{margin-top:.5rem;background:none;border:none;color:var(--muted);font-size:.78rem;cursor:pointer;text-decoration:underline}
+  .yt-remove:hover{color:#f87171}
+
+  .proj-link{display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;color:var(--accent2);font-size:.85rem;text-decoration:none;border:1px solid rgba(124,106,247,.3);padding:.4rem .9rem;border-radius:7px;transition:.2s}
+  .proj-link:hover{background:rgba(124,106,247,.15)}
+
+  /* CONTACT */
+  .contact-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:3rem;text-align:center}
+  .contact-box p{color:var(--muted);margin-bottom:.4rem;font-size:.9rem}
+  .contact-placeholder{color:var(--muted);font-style:italic;font-size:.85rem;margin-top:.5rem}
+
+  footer{text-align:center;padding:2rem;color:var(--muted);font-size:.82rem;border-top:1px solid var(--border);margin-top:4rem}
+
+  @media(max-width:700px){
+    .hero-inner{flex-direction:column-reverse;text-align:center;padding-top:80px}
+    .hero-sub{margin:0 auto 2rem}
+    .hero-btns{justify-content:center}
+    .photo-wrap{width:160px;height:160px}
+    .about-grid{grid-template-columns:1fr}
+    .exp-card{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="logo">JW.</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-tag">✦ Developer Portfolio</div>
+      <h1 class="hero-name">안녕하세요,<br><span>문재원</span>입니다.</h1>
+      <p class="hero-sub">개발과 창작을 사랑하는 개발자입니다.<br>아이디어를 코드로, 현실로 만들어냅니다.</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">프로젝트 보기</a>
+        <a href="#contact" class="btn btn-outline">연락하기</a>
+      </div>
+    </div>
+
+    <!-- 프로필 사진 -->
+    <div class="hero-photo">
+      <div class="photo-wrap" id="photoWrap" style="pointer-events: none;">
+        <div class="photo-placeholder" id="photoPlaceholder" style="display:none;">
+          <span>📷</span>
+          <div>프로필 사진</div>
+          <div style="font-size:.75rem;opacity:.6">클릭하여 업로드</div>
+        </div>
+        <img id="photoImg" src="https://pds.saramin.co.kr/person/photo/2022/08/rfxujj_u25q-gdyhga_rfxujitxmagdyhgarfxujax07bgdyhgaIMG1007.jpg" style="display:block; width: 100%; height: 100%; object-fit: cover;" alt="프로필 사진"/>
+      </div>
+      <span class="photo-hint" id="photoHint"></span>
+      <input type="file" id="photoInput" accept="image/*" onchange="uploadPhoto(event)"/>
+      <button class="icon-btn del" id="photoRemoveBtn" style="display:none;font-size:.78rem" onclick="removePhoto()">🗑️ 사진 제거</button>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">About Me</p>
+  <h2 class="section-title">저는 이런 사람이에요</h2>
+  <div class="about-grid">
+    <div class="info-card">
+      <h3>기본 정보</h3>
+      <div class="info-row"><span class="info-key">이름</span><span class="info-val">문재원</span></div>
+      <div class="info-row"><span class="info-key">나이</span><span class="info-val">만 33세</span></div>
+      <div class="info-row"><span class="info-key">거주지</span><span class="info-val">서울특별시 구로구</span></div>
+      <div class="info-row"><span class="info-key">분야</span><span class="info-val">개발자 (Developer)</span></div>
+    </div>
+    <div class="info-card">
+      <h3>현재 상태</h3>
+      <div class="info-row"><span class="info-key">상태</span><span class="info-val">✅ 개인 프로젝트 진행 중</span></div>
+      <div class="info-row"><span class="info-key">역할</span><span class="info-val">Solo</span></div>
+      <div class="info-row"><span class="info-key">출시작</span><span class="info-val">SnowMan's Revenge</span></div>
+      <div class="info-row"><span class="info-key">플랫폼</span><span class="info-val">Google Play Store</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label">Experience</p>
+  <h2 class="section-title">경력 사항</h2>
+  <div class="exp-list" id="expList"></div>
+  <button class="add-exp-btn" onclick="openModal()">＋ 경력 추가하기</button>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Projects</p>
+  <h2 class="section-title">프로젝트</h2>
+  <div class="proj-grid">
+
+    <!-- 개인 프로젝트 onclick="document.getElementById('soloIconInput').click()" title="아이콘 업로드"> -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem">
+          <div style="flex:1">
+            <div><span class="proj-tag tag-solo">Solo Project</span></div>
+            <div class="proj-title">SnowMan's Revenge</div>
+          </div>
+          <div class="proj-icon-wrap" id="soloIconWrap" style="pointer-events: none;">
+            <div class="proj-icon-placeholder" id="soloIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
+            <img id="soloIconImg" src="https://play-lh.googleusercontent.com/DzwYB3pIvBUypUr_3eJGj96Ab3eTl6fTyZVhHf-S7d7jiMpHfyPrCpQucxwpoveC7dO_fCasRgST_vPUf_bFVRQ=w480-h960-rw" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
+            <input type="file" id="soloIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'soloIconImg','soloIconPlaceholder','soloIconRemove')"/>
+          </div>
+        </div>
+        <button class="yt-remove" id="soloIconRemove" style="display:none;margin-top:.4rem" onclick="removeIcon('soloIconImg','soloIconPlaceholder','soloIconRemove','soloIconInput')">✕ 아이콘 제거</button>
+      </div>
+      <div class="proj-body">
+        <p class="proj-desc">개인이 혼자 기획·개발·출시한 닷지 게임.<br> 구글 플레이 스토어에 공개되어 있습니다.</p>
+        <div class="proj-meta">
+          <div class="proj-meta-row"><span class="meta-icon">📅</span><span>2026.04.01 – 2026.04.23 <em style="color:var(--muted)">(약 23일)</em></span></div>
+          <div class="proj-meta-row"><span class="meta-icon">🎮</span><span>장르: 닷지 게임</span></div>
+          <div class="proj-meta-row"><span class="meta-icon">📱</span><span>플랫폼: Android (Google Play)</span></div>
+        </div>
+        <!-- 유튜브 -->
+        <div id="yt-solo"></div>
+        <a class="proj-link" href="https://play.google.com/store" target="_blank">▶ Google Play에서 보기</a>
+      </div>
+    </div>
+
+    <!-- 팀 프로젝트 -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <div>
+          <span class="proj-tag tag-team">Team Project</span>
+          <span class="proj-tag tag-leader">👑 팀장</span>
+        </div>
+        <div class="proj-title">미래내일일경험</div>
+      </div>
+      <div class="proj-body">
+        <p class="proj-desc">팀장으로 참여 중인 8주간의 팀 프로젝트.<br> 협업과 리더십을 발휘하며 진행 중입니다.</p>
+        <div class="proj-meta">
+          <div class="proj-meta-row"><span class="meta-icon">📅</span><span>2026.05.18 – 2026.07.12</span></div>
+          <div class="proj-meta-row"><span class="meta-icon">⏱️</span><span>총 8주 진행</span></div>
+          <div class="proj-meta-row"><span class="meta-icon">🏷️</span><span>역할: 팀장 (Leader)</span></div>
+          <div class="proj-meta-row"><span class="meta-icon">🔄</span><span>완료</span></div>
+        </div>
+        <!-- 유튜브 -->
+        <div id="yt-team"></div>
+      </div>
+    </div>
+
+    <!-- UniRun -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem">
+          <div style="flex:1">
+            <div><span class="proj-tag tag-solo">Solo Project</span></div>
+            <div class="proj-title">위인런:영웅들의 질주</div>
+          </div>
+          <div class="proj-icon-wrap" id="unirunIconWrap" style="pointer-events: none;">
+            <div class="proj-icon-placeholder" id="unirunIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
+            <img id="unirunIconImg" src="https://play-lh.googleusercontent.com/AjJ4bRFTyE3VmFKhBkyP1LXYeEb8mLocVgjeJkMoUEKIeFv4KH4AL4iVy3uGsUuzMq9pWbTYSWXYUdoLJPKdy5c=w480-h960-rw" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
+            <input type="file" id="unirunIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'unirunIconImg','unirunIconPlaceholder','unirunIconRemove')"/>
+          </div>
+        </div>
+        <button class="yt-remove" id="unirunIconRemove" style="display:none;margin-top:.4rem" onclick="removeIcon('unirunIconImg','unirunIconPlaceholder','unirunIconRemove','unirunIconInput')">✕ 아이콘 제거</button>
+      </div>
+      <div class="proj-body">
+        <p class="proj-desc">개인이 혼자 기획·개발·출시한 유니런 게임.</p>
+        <div class="proj-meta">
+          <div class="proj-meta-row"><span class="meta-icon">📅</span><span>2026.06.02 – 2026.06.30</span></div>
+          <div class="proj-meta-row"><span class="meta-icon">🎮</span><span>장르: UniRun</span></div>
+          <div class="proj-meta-row"><span class="meta-icon">📱</span><span>Android (Google Play)</span></div>
+        </div>
+        <!-- 유튜브 -->
+        <div id="yt-unirun"></div>
+      </div>
+    </div>
+
+    <!-- VR Beat Saber -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem">
+          <div style="flex:1">
+            <div><span class="proj-tag tag-solo">Solo Project</span></div>
+            <div class="proj-title">VR Beat Saber</div>
+          </div>
+          <div class="proj-icon-wrap" id="vrbsIconWrap" onclick="document.getElementById('vrbsIconInput').click()" title="아이콘 업로드">
+            <div class="proj-icon-placeholder" id="vrbsIconPlaceholder">🖼️<div>아이콘</div></div>
+            <img id="vrbsIconImg" alt="아이콘" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
+            <input type="file" id="vrbsIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'vrbsIconImg','vrbsIconPlaceholder','vrbsIconRemove')"/>
+          </div>
+        </div>
+        <button class="yt-remove" id="vrbsIconRemove" style="display:none;margin-top:.4rem" onclick="removeIcon('vrbsIconImg','vrbsIconPlaceholder','vrbsIconRemove','vrbsIconInput')">✕ 아이콘 제거</button>
+      </div>
+      <div class="proj-body">
+        <p class="proj-desc">VR 리모컨을 사용하여 Beat에 맞게 플레이하는 게임.</p>
+        <div class="proj-meta">
+          <div class="proj-meta-row"><span class="meta-icon">📅</span><span>2026.05.06 – 2026.06.16</span></div>
+          <div class="proj-meta-row"><span class="meta-icon">🎮</span><span>장르: VR Beat Saber</span></div>
+          <div class="proj-meta-row"><span class="meta-icon">📱</span><span>플랫폼: 미정</span></div>
+        </div>
+        <!-- 유튜브 -->
+        <div id="yt-vrbs"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Contact</p>
+  <h2 class="section-title"></h2>
+  <div class="contact-box">
+    <p>🔗 GitHub / SNS</p>
+    <p class="contact-placeholder"><a href="https://github.com/Clair93" target="_blank" style="color:gray; text-decoration:none;">https://github.com/Clair93</a></p>
+    <br>
+    <p>📧 이메일</p>
+    <p class="contact-placeholder">mjw9313@gmail.com</p>
+    <p style="color:var(--muted);font-size:.8rem;margin-top:1rem"> 010-2601-5382</p>
+  </div>
+</section>
+
+<footer>© 2026 문재원 · All rights reserved</footer>
+
+<!-- EXPERIENCE MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <h3 id="modalTitle">경력 추가</h3>
+    <div class="form-group">
+      <label>회사명 *</label>
+      <input id="inp-company" placeholder="예: (주)회사이름"/>
+    </div>
+    <div class="form-group">
+      <label>직무 *</label>
+      <input id="inp-role" placeholder="예: 영상편집, 프론트엔드 개발"/>
+    </div>
+    <div class="form-group">
+      <label>시작 연월</label>
+      <input id="inp-start" placeholder="예: 2023.03"/>
+    </div>
+    <div class="form-group">
+      <label>종료 연월 (재직 중이면 비워두세요)</label>
+      <input id="inp-end" placeholder="예: 2024.08  |  비우면 '재직중' 표시"/>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="closeModal()">취소</button>
+      <button class="btn btn-primary" onclick="saveExp()">저장</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── EXPERIENCE ── */
+let experiences = [
+  {id:1, company:'(주)케이디에듀', role:'영상편집 및 온라인마케팅', start:'2022.12', end:'2024.10'},
+  {id:2, company:'버넥트', role:'프로그램 개발', start:'2026.05', end:'2026.07'}
+];
+let editingId = null;
+
+function render(){
+  const list = document.getElementById('expList');
+  list.innerHTML = '';
+  experiences.forEach(e => {
+    const period = e.start ? (e.start + ' – ' + (e.end || '재직중')) : '기간을 입력해 주세요';
+    const card = document.createElement('div');
+    card.className = 'exp-card';
+    card.innerHTML = `
+      <div class="exp-left">
+        <div class="exp-company">${e.company}</div>
+        <div class="exp-role">${e.role}</div>
+        <div class="exp-period">📅 ${period}</div>
+      </div>
+      <div class="exp-actions">
+        <button class="icon-btn" onclick="editExp(${e.id})">✏️ 수정</button>
+        <button class="icon-btn del" onclick="deleteExp(${e.id})">🗑️ 삭제</button>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+function openModal(id){
+  editingId = id||null;
+  document.getElementById('modalTitle').textContent = id ? '경력 수정' : '경력 추가';
+  if(id){
+    const e = experiences.find(x=>x.id===id);
+    document.getElementById('inp-company').value=e.company;
+    document.getElementById('inp-role').value=e.role;
+    document.getElementById('inp-start').value=e.start;
+    document.getElementById('inp-end').value=e.end;
+  } else {
+    ['inp-company','inp-role','inp-start','inp-end'].forEach(k=>document.getElementById(k).value='');
+  }
+  document.getElementById('modalOverlay').classList.add('active');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('active')}
+function closeModalOutside(e){if(e.target===document.getElementById('modalOverlay'))closeModal()}
+function editExp(id){openModal(id)}
+function deleteExp(id){
+  if(confirm('이 경력을 삭제할까요?')){
+    experiences=experiences.filter(e=>e.id!==id);render();
+  }
+}
+function saveExp(){
+  const company=document.getElementById('inp-company').value.trim();
+  const role=document.getElementById('inp-role').value.trim();
+  const start=document.getElementById('inp-start').value.trim();
+  const end=document.getElementById('inp-end').value.trim();
+  if(!company||!role){alert('회사명과 직무는 필수입니다.');return;}
+  if(editingId){
+    const e=experiences.find(x=>x.id===editingId);
+    e.company=company;e.role=role;e.start=start;e.end=end;
+  } else {
+    experiences.push({id:Date.now(),company,role,start,end});
+  }
+  closeModal();render();
+}
+
+/* ── PROFILE PHOTO ── */
+function uploadPhoto(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=document.getElementById('photoImg');
+    img.src=ev.target.result;
+    img.style.display='block';
+    document.getElementById('photoPlaceholder').style.display='none';
+    document.getElementById('photoHint').textContent='클릭하여 사진 변경';
+    document.getElementById('photoRemoveBtn').style.display='inline-block';
+  };
+  reader.readAsDataURL(file);
+}
+function removePhoto(){
+  document.getElementById('photoImg').src='';
+  document.getElementById('photoImg').style.display='none';
+  document.getElementById('photoPlaceholder').style.display='flex';
+  document.getElementById('photoHint').textContent='JPG · PNG · GIF 지원';
+  document.getElementById('photoRemoveBtn').style.display='none';
+  document.getElementById('photoInput').value='';
+}
+
+/* ── YOUTUBE ── */
+const YT_STORAGE_KEY = 'jw_portfolio_yt';
+const ytState = {'yt-solo':null, 'yt-team':null, 'yt-unirun':null, 'yt-vrbs':null};
+try{
+  const savedYt = JSON.parse(localStorage.getItem(YT_STORAGE_KEY));
+  if(savedYt) Object.assign(ytState, savedYt);
+}catch(e){}
+
+function extractYtId(url){
+  const patterns=[
+    /youtube\.com\/watch\?v=([^&#]+)/,
+    /youtu\.be\/([^?&#]+)/,
+    /youtube\.com\/embed\/([^?&#]+)/,
+    /youtube\.com\/shorts\/([^?&#]+)/,
+    /youtube\.com\/live\/([^?&#]+)/
+  ];
+  for(const p of patterns){const m=url.match(p);if(m)return m[1];}
+  return null;
+}
+
+function renderYt(containerId){
+  const el=document.getElementById(containerId);
+  const id=ytState[containerId];
+  if(id){
+    el.innerHTML=`
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/${id}" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>
+      </div>
+      <button class="yt-remove" onclick="removeYt('${containerId}')">✕ 영상 제거</button>`;
+  } else {
+    el.innerHTML=`
+      <div class="yt-placeholder" onclick="this.nextElementSibling.style.display='flex';this.style.display='none'">
+        <span>▶</span>
+        <div>유튜브 영상 추가</div>
+        <div style="font-size:.75rem;opacity:.6">클릭하여 링크 입력</div>
+      </div>
+      <div class="yt-input-row" style="display:none">
+        <input id="yt-inp-${containerId}" placeholder="YouTube 링크를 붙여넣으세요" onkeydown="if(event.key==='Enter')applyYt('${containerId}')"/>
+        <button onclick="applyYt('${containerId}')">적용</button>
+      </div>`;
+  }
+}
+
+function saveYtState(){
+  localStorage.setItem(YT_STORAGE_KEY, JSON.stringify(ytState));
+}
+
+function applyYt(containerId){
+  const val=document.getElementById('yt-inp-'+containerId).value.trim();
+  const id=extractYtId(val);
+  if(!id){alert('올바른 유튜브 링크를 입력해주세요.\n(youtube.com 또는 youtu.be 링크)');return;}
+  ytState[containerId]=id;
+  saveYtState();
+  renderYt(containerId);
+}
+
+function removeYt(containerId){
+  ytState[containerId]=null;
+  saveYtState();
+  renderYt(containerId);
+}
+
+function uploadIcon(e, imgId, placeholderId, removeId){
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=document.getElementById(imgId);
+    img.src=ev.target.result;
+    img.style.display='block';
+    document.getElementById(placeholderId).style.display='none';
+    document.getElementById(removeId).style.display='inline-block';
+  };
+  reader.readAsDataURL(file);
+}
+function removeIcon(imgId, placeholderId, removeId, inputId){
+  document.getElementById(imgId).src='';
+  document.getElementById(imgId).style.display='none';
+  document.getElementById(placeholderId).style.display='flex';
+  document.getElementById(removeId).style.display='none';
+  document.getElementById(inputId).value='';
+}
+
+/* ── INIT ── */
+render();
+renderYt('yt-solo');
+renderYt('yt-team');
+renderYt('yt-unirun');
+renderYt('yt-vrbs');
+</script>
+</body>
+</html>
