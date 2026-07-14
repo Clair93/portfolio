@@ -334,8 +334,8 @@
             <div class="proj-title">VR Beat Saber</div>
           </div>
           <div class="proj-icon-wrap" id="vrbsIconWrap" style="pointer-events: none;">
-            <div class="proj-icon-placeholder" id="vrbsIconPlaceholder">🖼️<div>아이콘</div></div>
-            <img id="vrbsIconImg" alt="아이콘" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
+            <div class="proj-icon-placeholder" id="vrbsIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
+            <img id="vrbsIconImg" src="img/VRbeatSaber.png" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
             <input type="file" id="vrbsIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'vrbsIconImg','vrbsIconPlaceholder','vrbsIconRemove')"/>
           </div>
         </div>
@@ -392,12 +392,12 @@
       </div>
       <div class="detail-block">
         <h4>프로젝트 개발 및 수행 내용</h4>
-        <p class="detail-text">1. 정해진 시간마다 등장하는 적 (Spawner System)<br> - Random.Range()를 사용하여 SnowMan을 생성 <br> - Quaternion 사용하여 플레이어를 따라 몸이 회전하도록 설정
-        <br>2. 아이템 구현 (OnTriggerEnter, Object Tag)<br> - Tag가 Player인 오브젝트와 충돌 시 효과 발동<br> - isInvincible로 3초간 무적 상태 유지</p>
+        <p class="detail-text"><strong>1. 정해진 시간마다 등장하는 적 (Spawner System)</strong><br> · Random.Range()를 사용하여 SnowMan을 생성 <br> · Quaternion 사용하여 플레이어를 따라 몸이 회전하도록 설정
+        <br><strong>2. 아이템 구현 (OnTriggerEnter, Object Tag)</strong><br> · Tag가 Player인 오브젝트와 충돌 시 효과 발동<br> · isInvincible로 3초간 무적 상태 유지</p>
       </div>
       <div class="detail-block">
         <h4>회고</h4>
-        <p class="detail-text">- 유니티를 배운지 1주일 미만에 만든 게임이지만 많은 것을 배울 수 있었던 게임<br>- 스크립트 오류 등 디버깅을 통해 해결을 해볼 수 있어서 좋았다. <br>- 첫 플레이 스토어에 정식 등록 된 게임</p>
+        <p class="detail-text">· 유니티를 배운지 1주일 안되서 만든 게임이지만 많은 것을 배울 수 있었던 게임<br>· 스크립트 오류 등 디버깅을 통해 해결을 해볼 수 있어서 좋았다. <br>· 첫 플레이 스토어에 정식 등록 된 게임</p>
       </div>
     </div>
 
@@ -421,23 +421,31 @@
       </div>
       <div class="detail-block">
         <h4>프로젝트 스크린샷</h4>
-        <div class="screenshot-gallery" id="gallery-team"></div>
+        <div class="screenshot-gallery" id="gallery-team">
+          <div class="screenshot-item"><img src="img/VIRNECT1.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/VIRNECT2.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/VIRNECT3.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/VIRNECT4.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/VIRNECT5.JPG" alt="스크린샷"/></div>
+        </div>
         <input type="file" id="ss-input-team" accept="image/*" multiple style="display:none" onchange="addScreenshots(event,'gallery-team')"/>
-        <button class="screenshot-add-btn" onclick="document.getElementById('ss-input-team').click()">＋ 스크린샷 추가</button>
+        <button class="screenshot-add-btn" style="display: none;"></button>
       </div>
       <div class="detail-block">
         <h4>프로젝트 관련 자료</h4>
-        <p class="detail-text">관련 자료(GitHub, 기획서, 발표자료 등) 링크를 입력해 주세요.</p>
+        <p class="detail-text"><a href="https://drive.google.com/file/d/1blQo_gfLzOYOzVKY-6AI6Hg0ldo4JstL/view?usp=drive_link" target="_blank" style="color:gray; text-decoration:none;">🔗 발표PPT</a></p>
       </div>
       <div class="detail-block">
         <h4>프로젝트 개발 및 수행 내용</h4>
-        <p class="detail-text">개발 및 수행 내용을 입력해 주세요.</p>
+        <p class="detail-text"><strong>1. AR 콘텐츠 기획 및 디자인</strong><br> · PC조립 가이드 중 교체 부분 절차만 선별<br> · 불필요한 내용은 제거하고, AR환경에 맞는 워크플로우 작성<br> · 사용자 입장에서 편하게 사용하고 볼 수 있는 구조 설계
+        <br><strong>2. XR VIRNECT Make&View 활용</strong><br> · 버넥트 Make & View 를 사용하여 AR 콘텐츠를 제작하고 실행<br> · 이미지 증강을 통한 모바일 뷰어 연결 및 실시간 콘텐츠 제공
+      <br><strong>3. 사용자 경험(UX) 강화</strong><br> · 메인보드에 3D 입체로 증강표시<br> · 가이드 영상 및 TTS 제공<br> · 실제 테스틑 통한 개선: 버튼 및 가이드 영상 위치 거리 문제 해결</p>
       </div>
       <div class="detail-block">
         <h4>회고</h4>
-        <p class="detail-text">- 노코드 기반의 툴을 처음 접하며 초반에 기능 습득에 어려움을 겪었지만, 점차 익숙해져 사용에 익숙해졌다.
-          <br>- 제일 어려운 부분은 월드 좌표를 기반으로 한 오브젝트 배치였는데 수없이 많은 테스트를 통해 해결할 수 있었다.
-          <br>- 팀원들 간의 의견 충돌 없이 서로를 존중하며 협력했던 경험이 가장 기억에 남는다.
+        <p class="detail-text">· 노코드 기반의 툴을 처음 접하며 초반에 기능 습득에 어려움을 겪었지만, 점차 익숙해져 사용에 익숙해졌다.
+          <br>· 제일 어려운 부분은 월드 좌표를 기반으로 한 오브젝트 배치였는데 미세하게 배치하는 데 많은 테스트를 통해 해결할 수 있었다.
+          <br>· 실제 사용을 해보면서 가이드 영상이 어디에 배치되면 좋을지 TTS 음성 안내만 나오는 것과 글이 같이 나오는 것이 어떤 것이 더 좋은지 테스트를 통해 개선할 수 있었다.
         </p>
       </div>
     </div>
@@ -461,9 +469,16 @@
       </div>
       <div class="detail-block">
         <h4>프로젝트 스크린샷</h4>
-        <div class="screenshot-gallery" id="gallery-unirun"></div>
+        <div class="screenshot-gallery" id="gallery-unirun">
+          <div class="screenshot-item"><img src="img/UniRun1.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/UniRun2.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/UniRun3.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/UniRun4.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/UniRun5.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/UniRun6.JPG" alt="스크린샷"/></div>
+        </div>
         <input type="file" id="ss-input-unirun" accept="image/*" multiple style="display:none" onchange="addScreenshots(event,'gallery-unirun')"/>
-        <button class="screenshot-add-btn" onclick="document.getElementById('ss-input-unirun').click()">＋ 스크린샷 추가</button>
+        <button class="screenshot-add-btn" style="display: none;"></button>
       </div>
       <div class="detail-block">
         <h4>프로젝트 개발 및 수행 내용</h4>
@@ -471,7 +486,9 @@
       </div>
       <div class="detail-block">
         <h4>회고</h4>
-        <p class="detail-text">프로젝트를 마치고 느낀 점을 입력해 주세요.</p>
+        <p class="detail-text"> · 포토샵이나 프리미어에서 Layer 라는 개념이 여기서 사용되어 이해하는 것에는 크게 어려움이 없어서 다행이였다.
+          <br> · 업데이트를 추가한다면 캐릭터와 맵을 추가하고, 코인을 추가하여 먹었을 때 보유한 코인으로 아이템을 구매 또는 강화효과를 넣어 게임을 더 재밌게 만들고 싶다.
+        </p>
       </div>
     </div>
 
@@ -480,7 +497,7 @@
       <div class="detail-header">
         <div class="proj-icon-wrap" id="detailVrbsIconWrap" style="pointer-events: none;">
           <div class="proj-icon-placeholder" id="detailVrbsIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
-          <img id="detailVrbsIconImg" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
+          <img id="detailVrbsIconImg" src="img/VRbeatSaber.png" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
           <input type="file" id="detailVrbsIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'detailVrbsIconImg','detailVrbsIconPlaceholder','detailVrbsIconRemove')"/>
         </div>
         <div style="flex:1">
@@ -490,13 +507,19 @@
       </div>
       <div class="detail-block">
         <h4>기획의도</h4>
-        <p class="detail-text">기획의도를 입력해 주세요.</p>
+        <p class="detail-text">플레이어가 음악을 선택하기 전 미리 들을 수 있는 기능을 제공하고,<br>음악의 비트에 맞게 노트가 나와 비트에 맞춰 게임을 할 수 있도록 설계</p>
       </div>
       <div class="detail-block">
         <h4>프로젝트 스크린샷</h4>
-        <div class="screenshot-gallery" id="gallery-vrbs"></div>
+        <div class="screenshot-gallery" id="gallery-vrbs">
+          <div class="screenshot-item"><img src="img/VRBS1.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/VRBS2.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/VRBS3.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/VRBS4.JPG" alt="스크린샷"/></div>
+          <div class="screenshot-item"><img src="img/VRBS5.JPG" alt="스크린샷"/></div>
+        </div>
         <input type="file" id="ss-input-vrbs" accept="image/*" multiple style="display:none" onchange="addScreenshots(event,'gallery-vrbs')"/>
-        <button class="screenshot-add-btn" onclick="document.getElementById('ss-input-vrbs').click()">＋ 스크린샷 추가</button>
+        <button class="screenshot-add-btn" style="display: none;"></button>
       </div>
       <div class="detail-block">
         <h4>프로젝트 개발 및 수행 내용</h4>
@@ -504,7 +527,9 @@
       </div>
       <div class="detail-block">
         <h4>회고</h4>
-        <p class="detail-text">프로젝트를 마치고 느낀 점을 입력해 주세요.</p>
+        <p class="detail-text"> · 유니티 내부적으로 음악을 비트에 맞추려고 하였으나 한계가 있었고, 외부 프로그램의 도움을 받아 비트에 맞춰 노트를 생성할 수 있었다.<br>단, 플레이어 앞에까지 노트가 도달하는 시간과 노트가 생성되는 시간의 차이가 있어 플레이어가 노트를 치는 타이밍이 비트에 맞지 않는 문제가 발생하였고 여러번 테스트 끝에 비트에 맞출 수 있었다.
+        <br> · UI 면에서 3D와 2D 게임처럼 UI를 설정하면 VR에 맞지 않는 UI가 되어 또 만들게 될 시 VR에 맞는 UI를 설정해야겠다고 느꼈다.
+        </p>
       </div>
     </div>
 
