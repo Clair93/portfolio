@@ -240,7 +240,6 @@
   <p class="section-label">Experience</p>
   <h2 class="section-title">경력 사항</h2>
   <div class="exp-list" id="expList"></div>
-  <button class="add-exp-btn" onclick="openModal()">＋ 경력 추가하기</button>
 </section>
 
 <!-- PROJECTS -->
@@ -883,10 +882,7 @@ function render(){
         <div class="exp-role">${e.role}</div>
         <div class="exp-period">📅 ${period}</div>
       </div>
-      <div class="exp-actions">
-        <button class="icon-btn" onclick="editExp(${e.id})">✏️ 수정</button>
-        <button class="icon-btn del" onclick="deleteExp(${e.id})">🗑️ 삭제</button>
-      </div>`;
+      `;
     list.appendChild(card);
   });
 }
@@ -953,67 +949,21 @@ function removePhoto(){
 }
 
 /* ── YOUTUBE ── */
-const YT_STORAGE_KEY = 'jw_portfolio_yt';
+/* 유튜브 영상은 여기서만 관리합니다 (방문자에게는 추가/제거 버튼이 보이지 않음)
+   - 추가: 해당 칸에 영상 ID 입력 (예: https://youtu.be/XXXX → 'XXXX')
+   - 제거: 값을 '' 로 비우기 */
 const ytState = {'yt-solo':'lpOlYOBH-10', 'yt-team':'_c5XmK_zT80', 'yt-unirun':'9dX-jGunsVo', 'yt-vrbs':'8gbsfgdyqcA',
   /* 아래에 유튜브 영상 ID 입력 (예: youtu.be/XXXX 의 XXXX) */
   'yt-dustecho':'', 'yt-bowling':'', 'yt-solpick':'', 'yt-picknpick':''};
-try{
-  const savedYt = JSON.parse(localStorage.getItem(YT_STORAGE_KEY));
-  if(savedYt) Object.assign(ytState, savedYt);
-}catch(e){}
-
-function extractYtId(url){
-  const patterns=[
-    /youtube\.com\/watch\?v=([^&#]+)/,
-    /youtu\.be\/([^?&#]+)/,
-    /youtube\.com\/embed\/([^?&#]+)/,
-    /youtube\.com\/shorts\/([^?&#]+)/,
-    /youtube\.com\/live\/([^?&#]+)/
-  ];
-  for(const p of patterns){const m=url.match(p);if(m)return m[1];}
-  return null;
-}
 
 function renderYt(containerId){
   const el=document.getElementById(containerId);
+  if(!el) return;
   const id=ytState[containerId];
-  if(id){
-    el.innerHTML=`
+  el.innerHTML = id ? `
       <div class="yt-wrap">
         <iframe src="https://www.youtube.com/embed/${id}" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>
-      </div>
-      <button class="yt-remove" onclick="removeYt('${containerId}')">✕ 영상 제거</button>`;
-  } else {
-    el.innerHTML=`
-      <div class="yt-placeholder" onclick="this.nextElementSibling.style.display='flex';this.style.display='none'">
-        <span>▶</span>
-        <div>유튜브 영상 추가</div>
-        <div style="font-size:.75rem;opacity:.6">클릭하여 링크 입력</div>
-      </div>
-      <div class="yt-input-row" style="display:none">
-        <input id="yt-inp-${containerId}" placeholder="YouTube 링크를 붙여넣으세요" onkeydown="if(event.key==='Enter')applyYt('${containerId}')"/>
-        <button onclick="applyYt('${containerId}')">적용</button>
-      </div>`;
-  }
-}
-
-function saveYtState(){
-  localStorage.setItem(YT_STORAGE_KEY, JSON.stringify(ytState));
-}
-
-function applyYt(containerId){
-  const val=document.getElementById('yt-inp-'+containerId).value.trim();
-  const id=extractYtId(val);
-  if(!id){alert('올바른 유튜브 링크를 입력해주세요.\n(youtube.com 또는 youtu.be 링크)');return;}
-  ytState[containerId]=id;
-  saveYtState();
-  renderYt(containerId);
-}
-
-function removeYt(containerId){
-  ytState[containerId]=null;
-  saveYtState();
-  renderYt(containerId);
+      </div>` : '';
 }
 
 function uploadIcon(e, imgId, placeholderId, removeId){
