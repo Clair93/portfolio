@@ -1,0 +1,31 @@
+/* ================================================================
+   background.css — 화면 뒤에 흐르는 IDE 코드 배경
+   · 코드 내용: js/data/background-code.js
+   · 진하기: .code-scroll 의 opacity
+   · 속도: .code-scroll 의 animation 시간 (클수록 느림)
+   ================================================================ */
+.code-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 35%, #000 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 35%, #000 100%);
+}
+/* 글자가 많은 왼쪽 위는 어둡게 눌러서 본문이 잘 읽히도록 */
+.code-bg::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 25% 40%, var(--bg) 0%, rgba(10, 10, 15, .55) 45%, rgba(10, 10, 15, .2) 100%);
+}
+.code-scroll {
+  position: absolute; right: 0; top: 0; width: min(780px, 100%);
+  font: 13px/1.75 var(--mono); color: #6b6f8f; white-space: pre;
+  opacity: .5;
+  animation: code-up 90s linear infinite;
+}
+.code-scroll .ln { display: inline-block; width: 3.2em; margin-right: 1.4em; text-align: right; color: #3a3d55; }
+.code-scroll .k { color: var(--kw); }
+.code-scroll .t { color: var(--ty); }
+.code-scroll .s { color: var(--str); }
+.code-scroll .n { color: var(--num); }
+.code-scroll .c { color: var(--cm); font-style: italic; }
+
+@keyframes code-up { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+@media (prefers-reduced-motion: reduce) { .code-scroll { animation: none; } }

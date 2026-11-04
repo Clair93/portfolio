@@ -1,0 +1,27 @@
+/* ================================================================
+   lightbox.css — 스크린샷 크게 보기 (이전 / 다음)
+   ================================================================ */
+.lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(5, 5, 9, .94); display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem max(16px, env(safe-area-inset-right, 0px)) 1.5rem max(16px, env(safe-area-inset-left, 0px)); animation: lb-in .2s ease; }
+.lightbox[hidden] { display: none; }
+@keyframes lb-in { from { opacity: 0; } }
+
+.lb-stage { flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .8rem; }
+.lb-img { max-width: 100%; max-height: calc(100% - 3rem); object-fit: contain; border-radius: 8px; box-shadow: 0 10px 50px rgba(0, 0, 0, .6); user-select: none; }
+.lb-caption { display: flex; gap: 1rem; font: .82rem var(--mono); color: var(--muted); }
+.lb-count { color: var(--accent2); font-variant-numeric: tabular-nums; }
+
+.lb-nav, .lb-close { background: rgba(22, 22, 34, .9); color: var(--text); border: 1px solid var(--border); cursor: pointer; transition: .2s; }
+.lb-nav { flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%; font-size: 1.8rem; line-height: 1; padding-bottom: 4px; }
+.lb-nav:hover, .lb-close:hover { border-color: var(--accent2); color: var(--accent2); }
+.lb-close { position: absolute; top: calc(16px + env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); width: 40px; height: 40px; border-radius: 8px; font-size: 1rem; }
+
+/* 사진이 1장뿐이면 화살표 숨김 */
+.lightbox.single .lb-nav { visibility: hidden; }
+
+@media (max-width: 720px) {
+  .lightbox { padding-inline: 8px; gap: 0; }
+  .lb-nav { position: absolute; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); width: 46px; height: 46px; }
+  .lb-prev { left: 30%; }
+  .lb-next { right: 30%; }
+  .lb-img { max-height: calc(100% - 7rem); }
+}

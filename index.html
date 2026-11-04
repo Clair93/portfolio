@@ -1,1024 +1,120 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>문재원 | Developer Portfolio</title>
-<style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  :root{
-    --bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a26;
-    --accent:#7c6af7;--accent2:#a78bfa;
-    --text:#e2e2f0;--muted:#8888aa;--border:#2a2a3d;
-    --card:#161622;--danger:#ef4444;--success:#22c55e;
-  }
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6}
 
-  /* NAV */
-  nav{position:fixed;top:0;width:100%;background:rgba(10,10,15,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100;padding:0 2rem}
-  .nav-inner{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;height:60px}
-  .logo{font-weight:700;font-size:1.1rem;color:var(--accent2);letter-spacing:1px}
-  .nav-links{display:flex;gap:1.8rem;list-style:none}
-  .nav-links a{color:var(--muted);text-decoration:none;font-size:.9rem;transition:.2s}
-  .nav-links a:hover{color:var(--accent2)}
+<!-- 폰트 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;600;800&display=swap">
 
-  /* SECTIONS */
-  section{padding:100px 2rem 60px;max-width:1100px;margin:auto}
-  .section-label{font-size:.75rem;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:.5rem}
-  h2.section-title{font-size:2rem;font-weight:700;margin-bottom:2.5rem;color:var(--text)}
-
-  /* HERO */
-  #hero{min-height:100vh;display:flex;align-items:center;max-width:100%;padding:0 2rem;background:radial-gradient(ellipse at 20% 50%,rgba(124,106,247,.12) 0%,transparent 60%)}
-  .hero-inner{max-width:1100px;margin:auto;width:100%;display:flex;align-items:center;justify-content:space-between;gap:3rem}
-  .hero-text{flex:1}
-  .hero-tag{display:inline-block;background:rgba(124,106,247,.15);border:1px solid rgba(124,106,247,.3);color:var(--accent2);padding:.3rem .9rem;border-radius:999px;font-size:.8rem;margin-bottom:1.5rem}
-  .hero-name{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:800;line-height:1.1;margin-bottom:1rem}
-  .hero-name span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .hero-sub{font-size:1.1rem;color:var(--muted);max-width:480px;margin-bottom:2rem}
-  .hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
-  .btn{padding:.7rem 1.6rem;border-radius:8px;font-size:.9rem;cursor:pointer;transition:.2s;text-decoration:none;display:inline-block;border:none}
-  .btn-primary{background:var(--accent);color:#fff}
-  .btn-primary:hover{background:var(--accent2)}
-  .btn-outline{border:1px solid var(--border);background:transparent;color:var(--text)}
-  .btn-outline:hover{border-color:var(--accent);color:var(--accent2)}
-
-  /* PROFILE PHOTO */
-  .hero-photo{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:.9rem}
-  .photo-wrap{width:220px;height:220px;border-radius:50%;border:2px dashed var(--accent);background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.3s;overflow:hidden;position:relative}
-  .photo-wrap:hover{border-color:var(--accent2);box-shadow:0 0 32px rgba(124,106,247,.25)}
-  .photo-wrap img{width:100%;height:100%;object-fit:cover;display:none;position:absolute;inset:0}
-  .photo-placeholder{display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--muted);font-size:.85rem;text-align:center;padding:1rem;pointer-events:none}
-  .photo-placeholder span{font-size:2.5rem}
-  .photo-hint{font-size:.75rem;color:var(--muted);opacity:.7}
-  #photoInput{display:none}
-
-  /* ABOUT */
-  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
-  .info-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
-  .info-card h3{color:var(--accent2);font-size:.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem}
-  .info-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border)}
-  .info-row:last-child{border:none}
-  .info-key{color:var(--muted);font-size:.9rem}
-  .info-val{color:var(--text);font-size:.9rem;font-weight:500}
-
-  /* EXPERIENCE */
-  .exp-list{display:flex;flex-direction:column;gap:1rem}
-  .exp-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;transition:.2s}
-  .exp-card:hover{border-color:var(--accent);box-shadow:0 0 20px rgba(124,106,247,.1)}
-  .exp-left{flex:1}
-  .exp-company{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
-  .exp-role{color:var(--accent2);font-size:.9rem;margin-bottom:.3rem}
-  .exp-period{color:var(--muted);font-size:.82rem}
-  .exp-actions{display:flex;gap:.5rem;flex-shrink:0}
-  .icon-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:.35rem .6rem;cursor:pointer;font-size:.8rem;transition:.2s}
-  .icon-btn:hover{border-color:var(--accent);color:var(--accent2)}
-  .icon-btn.del:hover{border-color:var(--danger);color:var(--danger)}
-  .add-exp-btn{width:100%;margin-top:1rem;padding:1rem;background:transparent;border:2px dashed var(--border);border-radius:12px;color:var(--muted);cursor:pointer;font-size:.95rem;transition:.2s}
-  .add-exp-btn:hover{border-color:var(--accent);color:var(--accent2)}
-
-  /* MODAL */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:.2s}
-  .modal-overlay.active{opacity:1;pointer-events:all}
-  .modal{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:2rem;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
-  .modal h3{font-size:1.2rem;margin-bottom:1.5rem;color:var(--text)}
-  .form-group{margin-bottom:1rem}
-  .form-group label{display:block;color:var(--muted);font-size:.83rem;margin-bottom:.4rem}
-  .form-group input,.form-group textarea{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:.65rem .9rem;font-size:.9rem;outline:none;transition:.2s;font-family:inherit}
-  .form-group input:focus,.form-group textarea:focus{border-color:var(--accent)}
-  .form-group textarea{resize:vertical;min-height:70px}
-  .modal-btns{display:flex;gap:.8rem;margin-top:1.5rem;justify-content:flex-end}
-
-  /* PROJECTS */
-  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:1.5rem}
-  .proj-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:.25s}
-  .proj-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 32px rgba(124,106,247,.15)}
-  .proj-header{background:linear-gradient(135deg,rgba(124,106,247,.2),rgba(167,139,250,.1));padding:1.5rem;border-bottom:1px solid var(--border)}
-  .proj-tag{display:inline-block;padding:.2rem .7rem;border-radius:999px;font-size:.73rem;font-weight:600;margin-bottom:.8rem}
-  .tag-solo{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
-  .tag-tag{background:rgba(34,197,94,.15);color:#ffffff;border:1px solid rgba(152, 154, 152, 0.3)}
-  .tag-team{background:rgba(124,106,247,.15);color:var(--accent2);border:1px solid rgba(124,106,247,.3)}
-  .tag-leader{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);margin-left:.4rem}
-  .tag-award{background:rgba(251,191,36,.18);color:#fcd34d;border:1px solid rgba(251,191,36,.5);margin-left:.4rem}
-  .tag-app{background:rgba(56,189,248,.15);color:#7dd3fc;border:1px solid rgba(56,189,248,.3)}
-  .proj-title{font-size:1.2rem;font-weight:700;color:var(--text)}
-  .proj-links{display:flex;gap:.5rem;flex-wrap:wrap}
-  .todo-text{opacity:.55;font-style:italic}
-  .screenshot-empty{grid-column:1/-1;border:1px dashed var(--border);border-radius:10px;padding:1.5rem;text-align:center;color:var(--muted);font-size:.85rem;opacity:.7}
-  .site-list a{color:var(--accent2);text-decoration:none;word-break:break-all}
-  .site-list a:hover{text-decoration:underline}
-  .proj-icon-wrap{width:64px;height:64px;border-radius:10px;border:2px dashed var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;overflow:hidden;transition:.2s}
-  .proj-icon-wrap:hover{border-color:var(--accent2);box-shadow:0 0 16px rgba(124,106,247,.2)}
-  .proj-icon-placeholder{display:flex;flex-direction:column;align-items:center;font-size:.55rem;color:var(--muted);gap:2px;text-align:center;padding:4px;pointer-events:none}
-  .proj-icon-placeholder{font-size:1.3rem}
-  .proj-icon-placeholder div{font-size:.6rem}
-  .proj-body{padding:1.5rem}
-  .proj-desc{color:var(--muted);font-size:.88rem;margin-bottom:1rem}
-  .proj-meta{display:flex;flex-direction:column;gap:.4rem}
-  .proj-meta-row{display:flex;gap:.5rem;align-items:center;font-size:.82rem}
-  .meta-icon{color:var(--accent2)}
-
-  /* YOUTUBE EMBED */
-  .yt-wrap{margin-top:1rem;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;position:relative}
-  .yt-wrap iframe{width:100%;height:100%;border:none}
-  .yt-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;background:var(--bg2);color:var(--muted);font-size:.85rem;cursor:pointer;border:1px dashed var(--border);border-radius:10px;padding:1rem;text-align:center}
-  .yt-placeholder:hover{border-color:var(--danger);color:#f87171}
-  .yt-placeholder span{font-size:2rem}
-  .yt-input-row{display:flex;gap:.5rem;margin-top:.8rem}
-  .yt-input-row input{flex:1;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:7px;padding:.5rem .8rem;font-size:.82rem;outline:none}
-  .yt-input-row input:focus{border-color:#ef4444}
-  .yt-input-row button{background:#ef4444;color:#fff;border:none;border-radius:7px;padding:.5rem .9rem;cursor:pointer;font-size:.82rem;white-space:nowrap}
-  .yt-input-row button:hover{background:#dc2626}
-  .yt-remove{margin-top:.5rem;background:none;border:none;color:var(--muted);font-size:.78rem;cursor:pointer;text-decoration:underline}
-  .yt-remove:hover{color:#f87171}
-
-  .proj-link{display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;color:var(--accent2);font-size:.85rem;text-decoration:none;border:1px solid rgba(124,106,247,.3);padding:.4rem .9rem;border-radius:7px;transition:.2s}
-  .proj-link:hover{background:rgba(124,106,247,.15)}
-
-  /* PROJECT DETAILS */
-  .proj-detail-wrap{margin-top:2rem;display:flex;flex-direction:column;gap:2rem}
-  .proj-detail{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem}
-  .detail-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
-  .detail-title{font-size:1.3rem;font-weight:700;color:var(--text)}
-  .detail-block{margin-bottom:1.8rem}
-  .detail-block:last-child{margin-bottom:0}
-  .detail-block h4{font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent2);margin-bottom:.7rem}
-  .detail-text{color:var(--muted);font-size:.92rem;line-height:1.7;white-space:pre-wrap}
-  .screenshot-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem;margin-bottom:.8rem}
-  .screenshot-item{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border);aspect-ratio:16/9;background:var(--bg2)}
-  .screenshot-item img{width:100%;height:100%;object-fit:cover;display:block}
-  .screenshot-gallery.portrait{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
-  .screenshot-gallery.portrait .screenshot-item{aspect-ratio:9/16}
-  .screenshot-gallery.portrait .screenshot-item img{object-fit:contain}
-  .screenshot-remove{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.65);color:#fff;border:none;border-radius:6px;width:24px;height:24px;cursor:pointer;font-size:.75rem;line-height:1}
-  .screenshot-add-btn{padding:.6rem 1rem;background:transparent;border:2px dashed var(--border);border-radius:10px;color:var(--muted);cursor:pointer;font-size:.85rem;transition:.2s}
-  .screenshot-add-btn:hover{border-color:var(--accent);color:var(--accent2)}
-
-  /* CONTACT */
-  .contact-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:3rem;text-align:center}
-  .contact-box p{color:var(--muted);margin-bottom:.4rem;font-size:.9rem}
-  .contact-placeholder{color:var(--muted);font-style:italic;font-size:.85rem;margin-top:.5rem}
-
-  footer{text-align:center;padding:2rem;color:var(--muted);font-size:.82rem;border-top:1px solid var(--border);margin-top:4rem}
-
-  @media(max-width:700px){
-    .hero-inner{flex-direction:column-reverse;text-align:center;padding-top:80px}
-    .hero-sub{margin:0 auto 2rem}
-    .hero-btns{justify-content:center}
-    .photo-wrap{width:160px;height:160px}
-    .about-grid{grid-template-columns:1fr}
-    .exp-card{flex-direction:column}
-  }
-</style>
+<!-- 스타일 -->
+<link rel="stylesheet" href="css/base.css">        <!-- 색상, 폰트, 공통 / 상단메뉴, Hero, About, 경력, 연락처 -->
+<link rel="stylesheet" href="css/background.css">  <!-- IDE 코드 배경 -->
+<link rel="stylesheet" href="css/projects.css">    <!-- 프로젝트 카드, 상세 내용 -->
+<link rel="stylesheet" href="css/lightbox.css">    <!-- 스크린샷 크게 보기 -->
 </head>
 <body>
 
-<nav>
-  <div class="nav-inner">
-    <span class="logo">JW.</span>
+<!-- 배경: 흐르는 코드 (내용은 js/data/background-code.js) -->
+<div class="code-bg" aria-hidden="true"><div class="code-scroll" id="codeScroll"></div></div>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top">&lt;JW<b>/</b>&gt;</a>
     <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#apps">Apps</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about">about</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#apps">apps</a></li>
+      <li><a href="#contact">contact</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- HERO -->
-<div id="hero">
-  <div class="hero-inner">
-    <div class="hero-text">
-      <div class="hero-tag">✦ Developer Portfolio</div>
-      <h1 class="hero-name">안녕하세요,<br><span>문재원</span>입니다.</h1>
-      <p class="hero-sub">개발과 창작을 사랑하는 개발자입니다.<br>아이디어를 코드로, 현실로 만들어냅니다.</p>
-      <div class="hero-btns">
-        <a href="#projects" class="btn btn-primary">프로젝트 보기</a>
-        <a href="#contact" class="btn btn-outline">연락하기</a>
-      </div>
-    </div>
-
-    <!-- 프로필 사진 -->
-    <div class="hero-photo">
-      <div class="photo-wrap" id="photoWrap" style="pointer-events: none;">
-        <div class="photo-placeholder" id="photoPlaceholder" style="display:none;">
-          <span>📷</span>
-          <div>프로필 사진</div>
-          <div style="font-size:.75rem;opacity:.6">클릭하여 업로드</div>
+<main class="page" id="top">
+  <!-- HERO -->
+  <header class="wrap hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="prompt"><span><span class="u">jaewon@portfolio</span>:<span class="p">~</span>$</span> <span><span id="typed"></span><span class="caret"></span></span></div>
+        <h1 class="hero-name">안녕하세요,<br><span id="heroName"></span>입니다.</h1>
+        <p class="hero-sub" id="heroIntro"></p>
+        <div class="btns">
+          <a class="btn btn-primary" href="#projects">프로젝트 보기 →</a>
+          <a class="btn btn-outline" href="#contact">연락하기</a>
         </div>
-        <img id="photoImg" src="https://pds.saramin.co.kr/person/photo/2022/08/rfxujj_u25q-gdyhga_rfxujitxmagdyhgarfxujax07bgdyhgaIMG1007.jpg" style="display:block; width: 100%; height: 100%; object-fit: cover;" alt="프로필 사진"/>
       </div>
-      <span class="photo-hint" id="photoHint"></span>
-      <input type="file" id="photoInput" accept="image/*" onchange="uploadPhoto(event)"/>
-      <button class="icon-btn del" id="photoRemoveBtn" style="display:none;font-size:.78rem" onclick="removePhoto()">🗑️ 사진 제거</button>
+      <div class="photo"><img id="heroPhoto" alt="프로필 사진"></div>
     </div>
-  </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section class="wrap" id="about">
+    <p class="label">about_me</p>
+    <h2>About Me</h2>
+    <div class="grid2">
+      <div class="card info"><h3>cat profile.json</h3><div id="infoRows"></div></div>
+      <div class="card info"><h3>git status</h3><div id="statusRows"></div></div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="wrap" id="experience">
+    <p class="label">experience</p>
+    <h2>경력 사항</h2>
+    <div class="exp-list" id="expList"></div>
+  </section>
+
+  <!-- PROJECTS (내용은 js/data/projects.js) -->
+  <section class="wrap" id="projects">
+    <p class="label">projects</p>
+    <h2>프로젝트</h2>
+    <div class="proj-grid" id="projectCards"></div>
+    <div class="detail-list" id="projectDetails"></div>
+  </section>
+
+  <!-- APPS (내용은 js/data/apps.js) -->
+  <section class="wrap" id="apps">
+    <p class="label">apps</p>
+    <h2>앱 개발</h2>
+    <div class="proj-grid" id="appCards"></div>
+    <div class="detail-list" id="appDetails"></div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="wrap" id="contact">
+    <p class="label">contact</p>
+    <h2>Contact</h2>
+    <div class="card contact-box" id="contactBox"></div>
+  </section>
+</main>
+
+<footer class="footer">© 2026 문재원 · All rights reserved</footer>
+
+<!-- 스크린샷 크게 보기 (js/lightbox.js) -->
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="스크린샷 크게 보기">
+  <button class="lb-close" type="button" aria-label="닫기">✕</button>
+  <button class="lb-nav lb-prev" type="button" aria-label="이전 화면">‹</button>
+  <figure class="lb-stage">
+    <img class="lb-img" alt="">
+    <figcaption class="lb-caption"><span class="lb-title"></span><span class="lb-count"></span></figcaption>
+  </figure>
+  <button class="lb-nav lb-next" type="button" aria-label="다음 화면">›</button>
 </div>
 
-<!-- ABOUT -->
-<section id="about">
-  <p class="section-label">About Me</p>
-  <h2 class="section-title"></h2>
-  <div class="about-grid">
-    <div class="info-card">
-      <h3>기본 정보</h3>
-      <div class="info-row"><span class="info-key">이름</span><span class="info-val">문재원</span></div>
-      <div class="info-row"><span class="info-key">나이</span><span class="info-val">만 33세</span></div>
-      <div class="info-row"><span class="info-key">거주지</span><span class="info-val">서울특별시 구로구</span></div>
-      <div class="info-row"><span class="info-key">분야</span><span class="info-val">개발자 (Developer)</span></div>
-    </div>
-    <div class="info-card">
-      <h3>현재 상태</h3>
-      <div class="info-row"><span class="info-key">상태</span><span class="info-val">✅ 개인 프로젝트 진행 중</span></div>
-      <div class="info-row"><span class="info-key">역할</span><span class="info-val">Solo</span></div>
-      <div class="info-row"><span class="info-key">출시작</span><span class="info-val">SnowMan's Revenge</span></div>
-      <div class="info-row"><span class="info-key">플랫폼</span><span class="info-val">Google Play Store</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <p class="section-label">Experience</p>
-  <h2 class="section-title">경력 사항</h2>
-  <div class="exp-list" id="expList"></div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <p class="section-label">Projects</p>
-  <h2 class="section-title">프로젝트</h2>
-  <div class="proj-grid">
-
-    <!-- 개인 프로젝트 onclick="document.getElementById('soloIconInput').click()" title="아이콘 업로드"> -->
-    <div class="proj-card">
-      <div class="proj-header">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem">
-          <div style="flex:1">
-            <div><span class="proj-tag tag-solo">모바일게임</span></div>
-            <div class="proj-title">SnowMan's Revenge</div>
-          </div>
-          <div class="proj-icon-wrap" id="soloIconWrap" style="pointer-events: none;">
-            <div class="proj-icon-placeholder" id="soloIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
-            <img id="soloIconImg" src="https://play-lh.googleusercontent.com/DzwYB3pIvBUypUr_3eJGj96Ab3eTl6fTyZVhHf-S7d7jiMpHfyPrCpQucxwpoveC7dO_fCasRgST_vPUf_bFVRQ=w480-h960-rw" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-            <input type="file" id="soloIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'soloIconImg','soloIconPlaceholder','soloIconRemove')"/>
-          </div>
-        </div>
-        <button class="yt-remove" id="soloIconRemove" style="display:none;margin-top:.4rem" onclick="removeIcon('soloIconImg','soloIconPlaceholder','soloIconRemove','soloIconInput')">✕ 아이콘 제거</button>
-      </div>
-      <div class="proj-body">
-        <p class="proj-desc"><span class="proj-tag tag-tag">Unity</span>
-          <span class="proj-tag tag-tag">C#</span><span class="proj-tag tag-tag">3D</span><span class="proj-tag tag-tag">Dodge</span>
-          <span class="proj-tag tag-tag">개인프로젝트</span><span class="proj-tag tag-tag">구글 플레이 스토어 출시</span></p>
-        <div class="proj-meta">
-          <div class="proj-meta-row"><span class="meta-icon">📅</span><span>2026.04.01 – 2026.04.23 <em style="color:var(--muted)">(약 23일)</em></span></div>
-          <div class="proj-meta-row"><span class="meta-icon">🎮</span><span>장르: 회피형 게임</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">📱</span><span>플랫폼: Android (Google Play)</span></div>
-        </div>
-        <!-- 유튜브 -->
-        <div id="yt-solo"></div>
-        <a class="proj-link" href="https://play.google.com/store/apps/details?id=com.dayofthemoon.snowmansrevenge" target="_blank">▶ Google Play에서 보기</a>
-      </div>
-    </div>
-
-    <!-- 팀 프로젝트 -->
-    <div class="proj-card">
-      <div class="proj-header">
-        <div>
-          <span class="proj-tag tag-team">Team Project</span>
-          <span class="proj-tag tag-leader">👑 팀장</span>
-          <span class="proj-tag tag-award">🏆 금상 수상</span>
-        </div>
-        <div class="proj-title">미래내일일경험</div>
-      </div>
-      <div class="proj-body">
-        <p class="proj-desc"><span class="proj-tag tag-tag">미래내일일경험 프로젝트</span><span class="proj-tag tag-tag">AR</span>
-        <span class="proj-tag tag-tag">팀프로젝트</span></p>
-        <div class="proj-meta">
-          <div class="proj-meta-row"><span class="meta-icon">📅</span><span>2026.05.18 – 2026.07.12</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">⏱️</span><span>총 8주 진행</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">🏷️</span><span>역할: 팀장 (Leader)</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">🏆</span><span>수상: 금상</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">🔄</span><span>완료</span></div>
-        </div>
-        <!-- 유튜브 -->
-        <div id="yt-team"></div>
-      </div>
-    </div>
-
-    <!-- UniRun -->
-    <div class="proj-card">
-      <div class="proj-header">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem">
-          <div style="flex:1">
-            <div><span class="proj-tag tag-solo">모바일게임</span></div>
-            <div class="proj-title">위인런:영웅들의 질주</div>
-          </div>
-          <div class="proj-icon-wrap" id="unirunIconWrap" style="pointer-events: none;">
-            <div class="proj-icon-placeholder" id="unirunIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
-            <img id="unirunIconImg" src="https://play-lh.googleusercontent.com/AjJ4bRFTyE3VmFKhBkyP1LXYeEb8mLocVgjeJkMoUEKIeFv4KH4AL4iVy3uGsUuzMq9pWbTYSWXYUdoLJPKdy5c=w480-h960-rw" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-            <input type="file" id="unirunIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'unirunIconImg','unirunIconPlaceholder','unirunIconRemove')"/>
-          </div>
-        </div>
-        <button class="yt-remove" id="unirunIconRemove" style="display:none;margin-top:.4rem" onclick="removeIcon('unirunIconImg','unirunIconPlaceholder','unirunIconRemove','unirunIconInput')">✕ 아이콘 제거</button>
-      </div>
-      <div class="proj-body">
-        <p class="proj-desc"><span class="proj-tag tag-tag">Unity</span>
-          <span class="proj-tag tag-tag">C#</span><span class="proj-tag tag-tag">2D</span><span class="proj-tag tag-tag">UniRun</span>
-          <span class="proj-tag tag-tag">개인프로젝트</span><span class="proj-tag tag-tag">구글 플레이 스토어 출시예정</span></p>
-        <div class="proj-meta">
-          <div class="proj-meta-row"><span class="meta-icon">📅</span><span>2026.06.02 – 2026.06.30</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">🎮</span><span>장르: 횡스크롤 점프형 게임</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">📱</span><span>Android (Google Play)</span></div>
-        </div>
-        <!-- 유튜브 -->
-        <div id="yt-unirun"></div>
-      </div>
-    </div>
-
-    <!-- VR Beat Saber -->
-    <div class="proj-card">
-      <div class="proj-header">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem">
-          <div style="flex:1">
-            <div><span class="proj-tag tag-solo">VR게임</span></div>
-            <div class="proj-title">VR Beat Saber</div>
-          </div>
-          <div class="proj-icon-wrap" id="vrbsIconWrap" style="pointer-events: none;">
-            <div class="proj-icon-placeholder" id="vrbsIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
-            <img id="vrbsIconImg" src="img/VRbeatSaber.png" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-            <input type="file" id="vrbsIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'vrbsIconImg','vrbsIconPlaceholder','vrbsIconRemove')"/>
-          </div>
-        </div>
-        <button class="yt-remove" id="vrbsIconRemove" style="display:none;margin-top:.4rem" onclick="removeIcon('vrbsIconImg','vrbsIconPlaceholder','vrbsIconRemove','vrbsIconInput')">✕ 아이콘 제거</button>
-      </div>
-      <div class="proj-body">
-        <p class="proj-desc"><span class="proj-tag tag-tag">Unity</span>
-          <span class="proj-tag tag-tag">C#</span><span class="proj-tag tag-tag">VR</span><span class="proj-tag tag-tag">Beat Game</span>
-          <span class="proj-tag tag-tag">개인프로젝트</span><span class="proj-tag tag-tag">GameJolt · Itch.io 업로드</span></p>
-        <div class="proj-meta">
-          <div class="proj-meta-row"><span class="meta-icon">📅</span><span>2026.05.06 – 2026.06.16</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">🎮</span><span>장르: VR Beat Game</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">📱</span><span>플랫폼: GameJolt · Itch.io</span></div>
-        </div>
-        <!-- 유튜브 -->
-        <div id="yt-vrbs"></div>
-        <!-- 🔗 아래 href="#" 를 실제 주소로 바꿔주세요 -->
-        <div class="proj-links"><a class="proj-link" href="https://gamejolt.com/games/VRBeatSaber/1112648" target="_blank">🎮 GameJolt에서 보기</a><a class="proj-link" href="https://clair93.itch.io/vr-beat-saber" target="_blank">🕹️ Itch.io에서 보기</a></div>
-      </div>
-    </div>
-
-    <!-- DustEcho -->
-    <div class="proj-card">
-      <div class="proj-header">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem">
-          <div style="flex:1">
-            <div><span class="proj-tag tag-solo">모바일게임</span></div>
-            <div class="proj-title">DustEcho</div>
-          </div>
-          <div class="proj-icon-wrap" style="pointer-events: none;">
-            <img src="https://lh3.googleusercontent.com/wIDjK_s5xrh_bM4iMTJEBUdRTbiSXf0jZ5CKonqHOH6vnhQwmDEiU-uNXVvhPr18DmPicnE3PTjpTV9xkF7l" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-          </div>
-        </div>
-      </div>
-      <div class="proj-body">
-        <p class="proj-desc"><span class="proj-tag tag-tag">Unity</span><span class="proj-tag tag-tag">C#</span><span class="proj-tag tag-tag">3D</span><span class="proj-tag tag-tag">TPS</span><span class="proj-tag tag-tag">개인프로젝트</span><span class="proj-tag tag-tag">구글 플레이 스토어 출시예정</span></p>
-        <div class="proj-meta">
-          <div class="proj-meta-row"><span class="meta-icon">📅</span><span>기간 입력 예정</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">🎮</span><span>장르: TPS (3인칭 슈팅)</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">📱</span><span>플랫폼: Android (Google Play 출시 예정)</span></div>
-        </div>
-        <!-- 유튜브: 스크립트의 ytState['yt-dustecho'] 에 영상 ID 입력 -->
-        <div id="yt-dustecho"></div>
-      </div>
-    </div>
-
-    <!-- VR Bowling -->
-    <div class="proj-card">
-      <div class="proj-header">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem">
-          <div style="flex:1">
-            <div><span class="proj-tag tag-solo">VR게임</span></div>
-            <div class="proj-title">VR Bowling</div>
-          </div>
-          <div class="proj-icon-wrap" style="pointer-events: none;">
-            <img src="img/VR_Bowling.png" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-          </div>
-        </div>
-      </div>
-      <div class="proj-body">
-        <p class="proj-desc"><span class="proj-tag tag-tag">Unity</span><span class="proj-tag tag-tag">C#</span><span class="proj-tag tag-tag">VR</span><span class="proj-tag tag-tag">개인프로젝트</span><span class="proj-tag tag-tag">GameJolt · Itch.io 업로드</span></p>
-        <div class="proj-meta">
-          <div class="proj-meta-row"><span class="meta-icon">📅</span><span>기간 입력 예정</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">🎮</span><span>장르: VR 볼링 (스포츠)</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">🌐</span><span>플랫폼: GameJolt · Itch.io</span></div>
-        </div>
-        <!-- 유튜브: 스크립트의 ytState['yt-bowling'] 에 영상 ID 입력 -->
-        <div id="yt-bowling"></div>
-        <!-- 🔗 아래 href="#" 를 실제 주소로 바꿔주세요 -->
-        <div class="proj-links"><a class="proj-link" href="https://gamejolt.com/games/Leon-Bowling/1108833" target="_blank">🎮 GameJolt에서 보기</a><a class="proj-link" href="https://clair93.itch.io/leon-bowling" target="_blank">🕹️ Itch.io에서 보기</a></div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- 프로젝트 상세 -->
-  <div class="proj-detail-wrap">
-
-    <!-- SnowMan's Revenge 상세 -->
-    <div class="proj-detail" id="detail-solo">
-      <div class="detail-header">
-        <div class="proj-icon-wrap" id="detailSoloIconWrap" style="pointer-events: none;">
-          <div class="proj-icon-placeholder" id="detailSoloIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
-          <img id="detailSoloIconImg" src="https://play-lh.googleusercontent.com/DzwYB3pIvBUypUr_3eJGj96Ab3eTl6fTyZVhHf-S7d7jiMpHfyPrCpQucxwpoveC7dO_fCasRgST_vPUf_bFVRQ=w480-h960-rw" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-          <input type="file" id="detailSoloIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'detailSoloIconImg','detailSoloIconPlaceholder','detailSoloIconRemove')"/>
-        </div>
-        <div style="flex:1">
-          <div class="detail-title">SnowMan's Revenge</div>
-          <button class="yt-remove" id="detailSoloIconRemove" style="display:none" onclick="removeIcon('detailSoloIconImg','detailSoloIconPlaceholder','detailSoloIconRemove','detailSoloIconInput')">✕ 아이콘 제거</button>
-        </div>
-      </div>
-      <div class="detail-block">
-        <h4>기획의도</h4>
-        <p class="detail-text">· 특정 구역에서만 회피하고 벗어날 수 없도록 설계<br>· 당근을 발사하는 SnowMan들이 시간을 두고 랜덤하게 등장<br>· 펭귄이 물고기를 먹으면 일시적으로 무적효과 제공</p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 스크린샷</h4>
-        <div class="screenshot-gallery" id="gallery-solo">
-          <div class="screenshot-item"><img src="img/Dodgeintro.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/DodgeMode.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/DodgeGame.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/DodgeGame2.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/DodgeGame3.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/DodgeEnding.JPG" alt="스크린샷"/></div>
-        </div>
-        <input type="file" id="ss-input-solo" accept="image/*" multiple style="display:none" onchange="addScreenshots(event,'gallery-solo')"/>
-        <button class="screenshot-add-btn" style="display: none;"></button>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 개발 및 수행 내용</h4>
-        <p class="detail-text"><strong>1. 정해진 시간마다 등장하는 적 (Spawner System)</strong><br> · Random.Range()를 사용하여 SnowMan을 생성 <br> · Quaternion 사용하여 플레이어를 따라 몸이 회전하도록 설정
-        <br><strong>2. 아이템 구현 (OnTriggerEnter, Object Tag)</strong><br> · Tag가 Player인 오브젝트와 충돌 시 효과 발동<br> · isInvincible로 3초간 무적 상태 유지</p>
-      </div>
-      <div class="detail-block">
-        <h4>회고</h4>
-        <p class="detail-text">· 유니티를 배운지 1주일 안되서 만든 게임이지만 많은 것을 배울 수 있었던 게임<br>· 스크립트 오류 등 디버깅을 통해 해결을 해볼 수 있어서 좋았다. <br>· 첫 플레이 스토어에 정식 등록 된 게임</p>
-      </div>
-    </div>
-
-    <!-- 미래내일일경험 상세 -->
-    <div class="proj-detail" id="detail-team">
-      <div class="detail-header">
-        <div class="proj-icon-wrap" id="detailTeamIconWrap" style="pointer-events: none;">
-          <div class="proj-icon-placeholder" id="detailTeamIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
-          <img id="detailTeamIconImg" src="https://play-lh.googleusercontent.com/U71z8ARJH-Hhvu7QFD2Qvk0PrBIz9WTiA4HnP_CAIDqLC4IQEqs1p6TLfHuRNEw7eVeWf58UYnhQgzWAGj126UI=w240-h480-rw" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-          <input type="file" id="detailTeamIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'detailTeamIconImg','detailTeamIconPlaceholder','detailTeamIconRemove')"/>
-        </div>
-        <div style="flex:1">
-          <div class="detail-title">미래내일일경험 <span class="proj-tag tag-award" style="margin-bottom:0;vertical-align:middle">🏆 금상 수상</span></div>
-          <button class="yt-remove" id="detailTeamIconRemove" style="display:none" onclick="removeIcon('detailTeamIconImg','detailTeamIconPlaceholder','detailTeamIconRemove','detailTeamIconInput')">✕ 아이콘 제거</button>
-        </div>
-      </div>
-      <div class="detail-block">
-        <h4>기획의도</h4>
-        <p class="detail-text">PC 업그레이드 수요는 높지만 고가 부품 파손 우려와 사설 수리점 이용에 대한 불안으로 자가 교체를 포기하는 사용자가 많다. <br>기존 2D 영상 매뉴얼의 시점 차이와 직관성 부족을 AR 안내로 보완하고자 하였다.</p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 스크린샷</h4>
-        <div class="screenshot-gallery" id="gallery-team">
-          <div class="screenshot-item"><img src="img/VIRNECT1.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/VIRNECT2.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/VIRNECT3.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/VIRNECT4.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/VIRNECT5.JPG" alt="스크린샷"/></div>
-        </div>
-        <input type="file" id="ss-input-team" accept="image/*" multiple style="display:none" onchange="addScreenshots(event,'gallery-team')"/>
-        <button class="screenshot-add-btn" style="display: none;"></button>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 관련 자료</h4>
-        <p class="detail-text"><a href="https://drive.google.com/file/d/1blQo_gfLzOYOzVKY-6AI6Hg0ldo4JstL/view?usp=drive_link" target="_blank" style="color:gray; text-decoration:none;">🔗 발표PPT</a></p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 개발 및 수행 내용</h4>
-        <p class="detail-text"><strong>1. AR 콘텐츠 기획 및 디자인</strong><br> · PC조립 가이드 중 교체 부분 절차만 선별<br> · 불필요한 내용은 제거하고, AR환경에 맞는 워크플로우 작성<br> · 사용자 입장에서 편하게 사용하고 볼 수 있는 구조 설계
-        <br><strong>2. XR VIRNECT Make&View 활용</strong><br> · 버넥트 Make & View 를 사용하여 AR 콘텐츠를 제작하고 실행<br> · 이미지 증강을 통한 모바일 뷰어 연결 및 실시간 콘텐츠 제공
-      <br><strong>3. 사용자 경험(UX) 강화</strong><br> · 메인보드에 3D 입체로 증강표시<br> · 가이드 영상 및 TTS 제공<br> · 실제 테스틑 통한 개선: 버튼 및 가이드 영상 위치 거리 문제 해결</p>
-      </div>
-      <div class="detail-block">
-        <h4>회고</h4>
-        <p class="detail-text">· 노코드 기반의 툴을 처음 접하며 초반에 기능 습득에 어려움을 겪었지만, 점차 익숙해져 사용에 익숙해졌다.
-          <br>· 제일 어려운 부분은 월드 좌표를 기반으로 한 오브젝트 배치였는데 미세하게 배치하는 데 많은 테스트를 통해 해결할 수 있었다.
-          <br>· 실제 사용을 해보면서 가이드 영상이 어디에 배치되면 좋을지 TTS 음성 안내만 나오는 것과 글이 같이 나오는 것이 어떤 것이 더 좋은지 테스트를 통해 개선할 수 있었다.
-        </p>
-      </div>
-    </div>
-
-    <!-- 위인런:영웅들의 질주 상세 -->
-    <div class="proj-detail" id="detail-unirun">
-      <div class="detail-header">
-        <div class="proj-icon-wrap" id="detailUnirunIconWrap" style="pointer-events: none;">
-          <div class="proj-icon-placeholder" id="detailUnirunIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
-          <img id="detailUnirunIconImg" src="https://play-lh.googleusercontent.com/AjJ4bRFTyE3VmFKhBkyP1LXYeEb8mLocVgjeJkMoUEKIeFv4KH4AL4iVy3uGsUuzMq9pWbTYSWXYUdoLJPKdy5c=w480-h960-rw" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-          <input type="file" id="detailUnirunIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'detailUnirunIconImg','detailUnirunIconPlaceholder','detailUnirunIconRemove')"/>
-        </div>
-        <div style="flex:1">
-          <div class="detail-title">위인런:영웅들의 질주</div>
-          <button class="yt-remove" id="detailUnirunIconRemove" style="display:none" onclick="removeIcon('detailUnirunIconImg','detailUnirunIconPlaceholder','detailUnirunIconRemove','detailUnirunIconInput')">✕ 아이콘 제거</button>
-        </div>
-      </div>
-      <div class="detail-block">
-        <h4>기획의도</h4>
-        <p class="detail-text">· 한글을 모티브로 한글이 한글이 가득한 게임을 기획<br>· 한 번에 끝나면 난이도가 어려울 것 같아, 목숨을 추가하여 난이도를 조절<br>· 배경음 또한 한국적인 느낌을 주는 요소로 기획 </p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 스크린샷</h4>
-        <div class="screenshot-gallery" id="gallery-unirun">
-          <div class="screenshot-item"><img src="img/UniRun1.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/UniRun2.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/UniRun3.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/UniRun4.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/UniRun5.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/UniRun6.JPG" alt="스크린샷"/></div>
-        </div>
-        <input type="file" id="ss-input-unirun" accept="image/*" multiple style="display:none" onchange="addScreenshots(event,'gallery-unirun')"/>
-        <button class="screenshot-add-btn" style="display: none;"></button>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 개발 및 수행 내용</h4>
-        <p class="detail-text"><strong>1. 레이어 개념과 점수시스템</strong><br> · Sorting Layer로 화면에 먼저 보일 오브젝트를 설정<br> · Grounded를 사용하여 플레이어가 땅에 붙어있는지 확인하고, 다음 Platform을 밟으면 점수 시스템을 도입
-        <br><strong>2. 달리는 듯한 모션 (Sprite Animation, BackgroundLoop)</strong><br> · transform.position.x <= width를 사용하여 화면이 계속 움직이도록 설정<br> · sprite animation을 더하여 마치 계속 달리는 듯한 느낌을 연출
-        <br><strong>3. 장애물 및 아이템 구현 (OnTriggerEnter, Object Tag)</strong><br> · 장애물 Script에 Tag가 Player인 오브젝트와 충돌 시 목숨 감소 및 게임 오버 발생하도록 설정<br> · OnTriggerEnter를 사용하여 Item과 충돌 시 속도 증가, 감소, 무적 효과를 부여
-      </p>
-      </div>
-      <div class="detail-block">
-        <h4>회고</h4>
-        <p class="detail-text"> · 포토샵이나 프리미어에서 Layer 라는 개념이 여기서 사용되어 이해하는 것에는 크게 어려움이 없어서 다행이였다.
-          <br> · 업데이트를 추가한다면 캐릭터와 맵을 추가하고, 코인을 추가하여 먹었을 때 보유한 코인으로 아이템을 구매 또는 강화효과를 넣어 게임을 더 재밌게 만들고 싶다.
-        </p>
-      </div>
-    </div>
-
-    <!-- VR Beat Saber 상세 -->
-    <div class="proj-detail" id="detail-vrbs">
-      <div class="detail-header">
-        <div class="proj-icon-wrap" id="detailVrbsIconWrap" style="pointer-events: none;">
-          <div class="proj-icon-placeholder" id="detailVrbsIconPlaceholder" style="display: none;">🖼️<div>아이콘</div></div>
-          <img id="detailVrbsIconImg" src="img/VRbeatSaber.png" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-          <input type="file" id="detailVrbsIconInput" accept="image/*" style="display:none" onchange="uploadIcon(event,'detailVrbsIconImg','detailVrbsIconPlaceholder','detailVrbsIconRemove')"/>
-        </div>
-        <div style="flex:1">
-          <div class="detail-title">VR Beat Saber</div>
-          <button class="yt-remove" id="detailVrbsIconRemove" style="display:none" onclick="removeIcon('detailVrbsIconImg','detailVrbsIconPlaceholder','detailVrbsIconRemove','detailVrbsIconInput')">✕ 아이콘 제거</button>
-        </div>
-      </div>
-      <div class="detail-block">
-        <h4>기획의도</h4>
-        <p class="detail-text">· 플레이어가 음악을 선택하기 전 미리 들을 수 있는 기능을 제공<br>· 음악의 비트에 맞게 노트가 나와 비트에 맞춰 게임을 할 수 있도록 설계</p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 스크린샷</h4>
-        <div class="screenshot-gallery" id="gallery-vrbs">
-          <div class="screenshot-item"><img src="img/VRBS1.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/VRBS2.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/VRBS3.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/VRBS4.JPG" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/VRBS5.JPG" alt="스크린샷"/></div>
-        </div>
-        <input type="file" id="ss-input-vrbs" accept="image/*" multiple style="display:none" onchange="addScreenshots(event,'gallery-vrbs')"/>
-        <button class="screenshot-add-btn" style="display: none;"></button>
-      </div>
-      <div class="detail-block">
-        <h4>배포 사이트</h4>
-        <!-- 🔗 href="#" 와 "주소 입력 예정"을 실제 주소로 바꿔주세요 -->
-        <p class="detail-text site-list">🎮 GameJolt: <a href="https://gamejolt.com/games/VRBeatSaber/1112648" target="_blank">GameJolt</a><br>🕹️ Itch.io: <a href="https://clair93.itch.io/vr-beat-saber" target="_blank">Itch.io</a></p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 개발 및 수행 내용</h4>
-        <p class="detail-text"><strong>1. 노트를 비트에 맞추는 작업 (오디오 실크 및 노트 생성 최적화)</strong><br> · Unity 내부 오디오 시스템의 한계로 외부 도구를 사용하여 음악을 비트에 맞추는 작업을 수행<br> · 노트가 플레이어에게 도달하는 시간이 비트에 맞지 않아 노트 이동 속도와 거리를 기반으로 생성 타이밍 설정
-        <br><strong>2. 비트게임에 맞는 음악 선택</strong><br> · 외부에서 하이라이트 부분까지 제공하여 .previewClip 으로 음악선택 전 미리 듣기 구현
-      </p>
-      </div>
-      <div class="detail-block">
-        <h4>회고</h4>
-        <p class="detail-text"> · 유니티 내부적으로 음악을 비트에 맞추려고 하였으나 한계가 있었고, 외부 프로그램의 도움을 받아 비트에 맞춰 노트를 생성할 수 있었다.<br>단, 플레이어 앞에까지 노트가 도달하는 시간과 노트가 생성되는 시간의 차이가 있어 플레이어가 노트를 치는 타이밍이 비트에 맞지 않는 문제가 발생하였고 여러번 테스트 끝에 비트에 맞출 수 있었다.
-        <br> · UI 면에서 3D와 2D 게임처럼 UI를 설정하면 VR에 맞지 않는 UI가 되어 또 만들게 될 시 VR에 맞는 UI를 설정해야겠다고 느꼈다.
-        </p>
-      </div>
-    </div>
-
-    <!-- DustEcho 상세 -->
-    <div class="proj-detail" id="detail-dustecho">
-      <div class="detail-header">
-        <div class="proj-icon-wrap" style="pointer-events: none;">
-          <img src="https://lh3.googleusercontent.com/wIDjK_s5xrh_bM4iMTJEBUdRTbiSXf0jZ5CKonqHOH6vnhQwmDEiU-uNXVvhPr18DmPicnE3PTjpTV9xkF7l" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-        </div>
-        <div style="flex:1">
-          <div class="detail-title">DustEcho</div>
-        </div>
-      </div>
-      <div class="detail-block">
-        <h4>기획의도</h4>
-        <p class="detail-text">· 좀비를 잡는 게임을 생각하며 TPS 게임을 제작<br>· 몰입감을 위해 기본 총알 수를 제한으로 두고 필드에서 획득할 수 있도록 기획<br>· 밀리터리 컨셉으로 하늘에서 공중 보급이 나오도록 기획<br>· 로비에서 강화 및 무기를 구매할 수 있도록 구성</p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 스크린샷</h4>
-        <div class="screenshot-gallery" id="gallery-dustecho">
-          <div class="screenshot-item"><img src="img/dustecho1.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/dustecho2.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/dustecho3.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/dustecho4.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/dustecho5.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/dustecho6.png" alt="스크린샷"/></div>
-        </div>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 개발 및 수행 내용</h4>
-        <p class="detail-text"><strong>1. IK 작업으로 총과 손 위치 일치</strong><br> · 코드를 먼저 작성한 후, 총 프리팹과 플레이어 손이 일치할 수 있도록 세팅<br> · 애니메이션 작동 시 제대로 맞지 않는 점을 발견하여 IK 의존도를 조정하며 수정 완료<br><strong>2. ScriptableObject를 활용한 데이터 관리</strong><br> · 좀비마다 각각의 스크립트로 체력, 속도, 공격력 등을 설정하는 것이 아닌 Data 파일로 설정<br> · 총에도 똑같이 적용하여 스크립트를 간소화<br> · 강화 작업은 Data 파일을 하나 더 만들어 적용될 수 있도록 수정<br><strong>3. Scoop Mode (듀얼 카메라)</strong><br> · 카메라 하나로 설정하는 것이 아닌 카메라 한 대를 더 추가하여, Scoop 시 다른 카메라가 작동되도록 적용<br> · 기존 카메라는 캐릭터 뒤를 비추고, Scoop일 때만 다른 카메라 한 대가 작동되도록 수정</p>
-      </div>
-      <div class="detail-block">
-        <h4>회고</h4>
-        <p class="detail-text">· Data를 알기 전까지는 각각의 스크립트 또는 인터페이스를 활용해야 하는 것으로 인지했으나, Scriptable로 할 수 있고 서버와 연결한다면 서버에서 관리할 수 있다는 것을 알게 되어 서버에 대해서도 알아가는 중이다.<br>· IK를 작업하면서 의존도 설정부터 Mask 설정까지 잘 해야 하며, 이 과정에서 애니메이션이 캐릭터와 맞지 않을 경우 편집을 통해 맞추는 작업을 해야 한다는 것도 알게 되었다.</p>
-      </div>
-    </div>
-
-    <!-- VR Bowling 상세 -->
-    <div class="proj-detail" id="detail-bowling">
-      <div class="detail-header">
-        <div class="proj-icon-wrap" style="pointer-events: none;">
-          <img src="img/VR_Bowling.png" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-        </div>
-        <div style="flex:1">
-          <div class="detail-title">VR Bowling</div>
-        </div>
-      </div>
-      <div class="detail-block">
-        <h4>기획의도</h4>
-        <p class="detail-text">· 단순히 공을 굴리고 핀을 쓰러뜨리는 구조만 있다면 심심하다고 생각하여 실제 볼링 구조를 반영<br>· 배경음악을 넣어 음악을 들으면서 게임을 즐길 수 있도록 기획</p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 스크린샷</h4>
-        <div class="screenshot-gallery" id="gallery-bowling">
-          <div class="screenshot-item"><img src="img/VRBowling1.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/VRBowling2.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/VRBowling3.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/VRBowling4.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="img/VRBowling5.png" alt="스크린샷"/></div>
-        </div>
-      </div>
-      <div class="detail-block">
-        <h4>배포 사이트</h4>
-        <!-- 🔗 href="#" 와 "주소 입력 예정"을 실제 주소로 바꿔주세요 -->
-        <p class="detail-text site-list">🎮 GameJolt: <a href="https://gamejolt.com/games/Leon-Bowling/1108833" target="_blank">Leon Bowling</a><br>🕹️ Itch.io: <a href="https://clair93.itch.io/leon-bowling" target="_blank">Leon Bowling</a></p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 개발 및 수행 내용</h4>
-        <p class="detail-text"><strong>1. 볼링공 리셋 기능 (Socket)</strong><br> · 볼링공을 던진 뒤 새로 생성하는 것이 아니라, 소켓에 장착된 첫 위치값을 저장<br> · 일정 거리를 벗어나면 볼링공이 다시 소켓 위치로 돌아오도록 설정<br><strong>2. 볼링공 추적 카메라 (Follow Camera)</strong><br> · 메인 카메라가 아닌 오직 볼링공만 쫓는 Follow Camera 설정<br> · UI RawImage에 매핑하여 실시간 방송처럼 송출<br> · 공이 던져진 순간부터 공을 추적하도록 설정</p>
-      </div>
-      <div class="detail-block">
-        <h4>회고</h4>
-        <p class="detail-text">· VR 볼링 게임을 만들면서 소켓 기능을 알게 되었고, 공을 던지거나 멀리 보냈을 때 파괴 후 다시 생성하는 것이 아니라 위치값을 저장하여 되돌아오게 하면 성능이나 비용 면에서 효율적이라고 느껴 사용하였다.</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- APPS -->
-<section id="apps">
-  <p class="section-label">Apps</p>
-  <h2 class="section-title">앱 개발</h2>
-  <div class="proj-grid">
-
-    <!-- 솔픽 -->
-    <div class="proj-card">
-      <div class="proj-header">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem">
-          <div style="flex:1">
-            <div><span class="proj-tag tag-app">앱개발</span></div>
-            <div class="proj-title">솔픽</div>
-          </div>
-          <div class="proj-icon-wrap" style="pointer-events: none;">
-            <img src="https://resources-fe.toss.im/image-optimize/width=198,quality=75/https%3A%2F%2Fstatic.toss.im%2Fappsintoss%2F94037%2Fmcp-images%2Fe43f7488-adcb-4c8b-aeea-aec3edb885fc%2F0.png" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-          </div>
-        </div>
-      </div>
-      <div class="proj-body">
-        <p class="proj-desc"><span class="proj-tag tag-tag">앱개발</span><span class="proj-tag tag-tag">개인프로젝트</span><span class="proj-tag tag-tag">앱인토스 출시</span></p>
-        <div class="proj-meta">
-          <div class="proj-meta-row"><span class="meta-icon">📅</span><span>1일</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">💡</span><span>하루의 운세 등을 가볍게 볼 수 있는 앱</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">📱</span><span>플랫폼: 앱인토스 (토스 미니앱)</span></div>
-        </div>
-        <!-- 유튜브: 스크립트의 ytState['yt-solpick'] 에 영상 ID 입력 -->
-        <div id="yt-solpick"></div>
-        <div class="proj-links"><a class="proj-link" href="https://tossminiapp.com/s/dAR2kAFo" target="_blank">📲 앱인토스에서 보기</a></div>
-      </div>
-    </div>
-
-    <!-- 픽앤뽑기 -->
-    <div class="proj-card">
-      <div class="proj-header">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem">
-          <div style="flex:1">
-            <div><span class="proj-tag tag-app">앱개발</span></div>
-            <div class="proj-title">픽앤뽑기</div>
-          </div>
-          <div class="proj-icon-wrap" style="pointer-events: none;">
-            <img src="https://resources-fe.toss.im/image-optimize/width=198,quality=75/https%3A%2F%2Fstatic.toss.im%2Fappsintoss%2F94037%2Flive-managed-v1-55b0b4e7-6636-4206-ba68-5415693319b3.png" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-          </div>
-        </div>
-      </div>
-      <div class="proj-body">
-        <p class="proj-desc"><span class="proj-tag tag-tag">앱개발</span><span class="proj-tag tag-tag">개인프로젝트</span><span class="proj-tag tag-tag">앱인토스 출시</span></p>
-        <div class="proj-meta">
-          <div class="proj-meta-row"><span class="meta-icon">📅</span><span>1주일</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">💡</span><span>사다리 · 룰렛 · 제비뽑기로 소소한 내기를 정하는 앱</span></div>
-          <div class="proj-meta-row"><span class="meta-icon">📱</span><span>플랫폼: 앱인토스 (토스 미니앱)</span></div>
-        </div>
-        <!-- 유튜브: 스크립트의 ytState['yt-picknpick'] 에 영상 ID 입력 -->
-        <div id="yt-picknpick"></div>
-        <div class="proj-links"><a class="proj-link" href="https://tossminiapp.com/s/ZzcPcKmg" target="_blank">📲 앱인토스에서 보기</a></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="proj-detail-wrap">
-
-    <!-- 솔픽 상세 -->
-    <div class="proj-detail" id="detail-solpick">
-      <div class="detail-header">
-        <div class="proj-icon-wrap" style="pointer-events: none;">
-          <img src="https://resources-fe.toss.im/image-optimize/width=198,quality=75/https%3A%2F%2Fstatic.toss.im%2Fappsintoss%2F94037%2Fmcp-images%2Fe43f7488-adcb-4c8b-aeea-aec3edb885fc%2F0.png" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-        </div>
-        <div style="flex:1">
-          <div class="detail-title">솔픽</div>
-        </div>
-      </div>
-      <div class="detail-block">
-        <h4>기획의도</h4>
-        <p class="detail-text">· 하루의 운세 등 부담 없이 가볍게 즐길 수 있는 콘텐츠를 제공<br>· 앱인토스에 출시하여 별도 설치 없이 토스 앱 안에서 바로 이용할 수 있도록 구성</p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 스크린샷</h4>
-        <div class="screenshot-gallery portrait" id="gallery-solpick">
-          <div class="screenshot-item"><img src="https://static.toss.im/appsintoss/94037/mcp-images/e43f7488-adcb-4c8b-aeea-aec3edb885fc/2.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="https://static.toss.im/appsintoss/94037/mcp-images/e43f7488-adcb-4c8b-aeea-aec3edb885fc/3.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="https://static.toss.im/appsintoss/94037/mcp-images/e43f7488-adcb-4c8b-aeea-aec3edb885fc/4.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="https://static.toss.im/appsintoss/94037/mcp-images/e43f7488-adcb-4c8b-aeea-aec3edb885fc/5.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="https://static.toss.im/appsintoss/94037/mcp-images/e43f7488-adcb-4c8b-aeea-aec3edb885fc/6.png" alt="스크린샷"/></div>
-          <div class="screenshot-item"><img src="https://static.toss.im/appsintoss/94037/mcp-images/e43f7488-adcb-4c8b-aeea-aec3edb885fc/7.png" alt="스크린샷"/></div>
-        </div>
-      </div>
-      <div class="detail-block">
-        <h4>배포 사이트</h4>
-        <p class="detail-text site-list">📲 앱인토스: <a href="https://tossminiapp.com/s/dAR2kAFo" target="_blank">솔픽</a></p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 개발 및 수행 내용</h4>
-        <p class="detail-text"><strong>1. SOLID 원칙 기반 구조화 및 AI 협업 개발</strong><br> · 초기 기획 단계에서 서비스의 핵심 가치와 화면별 노출 데이터를 구체적으로 정의한 후 개발에 착수했습니다. 객체지향 설계의 SOLID 원칙을 적용하여 모듈 간 의존성을 낮추고 확장성을 확보했으며, AI 스킬을 활용해 단계별로 시스템 구조를 다듬어 나갔습니다.<br><strong>2. 단계별 검증 및 앱인토스(App in Toss) 출시</strong><br> · AI와의 주기적인 코드 리뷰 및 기능 검토를 거쳐 불필요한 스펙은 덜어내고 필요한 로직을 신속히 추가하는 다듬기 작업을 수행했습니다. 철저한 예외 처리와 로컬 테스트를 거쳐 서비스 안정성을 확보한 후 앱인토스 환경에 성공적으로 등록·출시했습니다.</p>
-      </div>
-      <div class="detail-block">
-        <h4>회고</h4>
-        <p class="detail-text">· SOLID 원칙을 프로젝트 구조 설계에 직접 적용해 봄으로써 모듈의 독립성과 코드 재사용성의 중요성을 체감했습니다. 또한 AI를 단순 보조 도구가 아닌 기획·설계 검증 파트너로 적극 활용하여 개발 기간을 단축하고 제품 완성도를 높이는 파이프라인을 경험했습니다.</p>
-      </div>
-    </div>
-
-    <!-- 픽앤뽑기 상세 -->
-    <div class="proj-detail" id="detail-picknpick">
-      <div class="detail-header">
-        <div class="proj-icon-wrap" style="pointer-events: none;">
-          <img src="https://resources-fe.toss.im/image-optimize/width=198,quality=75/https%3A%2F%2Fstatic.toss.im%2Fappsintoss%2F94037%2Flive-managed-v1-55b0b4e7-6636-4206-ba68-5415693319b3.png" alt="아이콘" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
-        </div>
-        <div style="flex:1">
-          <div class="detail-title">픽앤뽑기</div>
-        </div>
-      </div>
-      <div class="detail-block">
-        <h4>기획의도</h4>
-        <p class="detail-text">· 친구나 지인과 밥값 내기, 커피 사기, 설거지, 청소 등 소소한 내기를 재미있고 공정하게 정할 수 있도록 기획<br>· 사다리타기, 룰렛, 제비뽑기 등 상황에 맞게 고를 수 있는 다양한 뽑기 방식 제공<br>· 앱인토스에 출시하여 토스 앱 안에서 바로 이용할 수 있도록 구성</p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 스크린샷</h4>
-        <div class="screenshot-gallery portrait" id="gallery-picknpick">
-          <div class="screenshot-item"><img src="https://static.toss.im/appsintoss/94037/live-managed-v1-d69c0f18-417e-41bf-b665-1da54d67d529.png" alt="스크린샷"/></div>
-        </div>
-      </div>
-      <div class="detail-block">
-        <h4>배포 사이트</h4>
-        <p class="detail-text site-list">📲 앱인토스: <a href="https://tossminiapp.com/s/ZzcPcKmg" target="_blank">픽앤뽑기</a></p>
-      </div>
-      <div class="detail-block">
-        <h4>프로젝트 개발 및 수행 내용</h4>
-        <p class="detail-text"><strong>1. 아이디어 구체화 및 기획 고도화</strong><br> · 기존에 구상했던 아이디어를 바탕으로 초기 기획서를 정교하게 도출하며 프로젝트를 시작했습니다. AI와의 상호 검토를 진행하며 사용자 동선과 기능 명세를 한 단계씩 구체화하고, 완성도를 극대화할 수 있는 요소들을 단계적으로 추가했습니다.<br><strong>2. 방향성 유지 및 오류 예방 중심 개발</strong><br> · 기능 구현 과정에서 개발 방향성을 잃지 않도록 AI 스킬 기반 가이드를 적용하여 예외 상황과 런타임 오류를 선제적으로 점검했습니다. 기획과 구현 사이의 차이를 줄이는 피드백 루프를 통해 개발의 안정성을 유지하며 완성했습니다.</p>
-      </div>
-      <div class="detail-block">
-        <h4>회고</h4>
-        <p class="detail-text">· 추상적인 아이디어를 구체적인 기획서로 디테일하게 발전시키는 프로세스를 확립했습니다. AI를 활용해 의도치 않은 로직 오류를 미리 차단하고 프로젝트의 본래 목적과 방향성을 단단하게 유지하며 개발을 이끌어내는 경험을 쌓았습니다.</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <p class="section-label">Contact</p>
-  <h2 class="section-title"></h2>
-  <div class="contact-box">
-    <p>🔗 GitHub / SNS</p>
-    <p class="contact-placeholder"><a href="https://github.com/Clair93" target="_blank" style="color:gray; text-decoration:none;">https://github.com/Clair93</a></p>
-    <br>
-    <p>📧 이메일</p>
-    <p class="contact-placeholder">mjw9313@gmail.com</p>
-    <p style="color:var(--muted);font-size:.8rem;margin-top:1rem"></p>
-  </div>
-</section>
-
-<footer>© 2026 문재원 · All rights reserved</footer>
-
-<!-- EXPERIENCE MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
-  <div class="modal">
-    <h3 id="modalTitle">경력 추가</h3>
-    <div class="form-group">
-      <label>회사명 *</label>
-      <input id="inp-company" placeholder="예: (주)회사이름"/>
-    </div>
-    <div class="form-group">
-      <label>직무 *</label>
-      <input id="inp-role" placeholder="예: 영상편집, 프론트엔드 개발"/>
-    </div>
-    <div class="form-group">
-      <label>시작 연월</label>
-      <input id="inp-start" placeholder="예: 2023.03"/>
-    </div>
-    <div class="form-group">
-      <label>종료 연월 (재직 중이면 비워두세요)</label>
-      <input id="inp-end" placeholder="예: 2024.08  |  비우면 '재직중' 표시"/>
-    </div>
-    <div class="modal-btns">
-      <button class="btn btn-outline" onclick="closeModal()">취소</button>
-      <button class="btn btn-primary" onclick="saveExp()">저장</button>
-    </div>
-  </div>
-</div>
-
-<script>
-/* ── EXPERIENCE ── */
-let experiences = [
-  {id:1, company:'한국폴리텍대학 광명융합기술교육원', role:'증강현실시스템과', start:'2026.02', end:'2026.10'},
-  {id:2, company:'버넥트', role:'프로그램 개발', start:'2026.05', end:'2026.07'},
-  {id:3, company:'(주)케이디에듀', role:'영상편집 및 온라인마케팅', start:'2022.12', end:'2024.10'}
-];
-let editingId = null;
-
-function render(){
-  const list = document.getElementById('expList');
-  list.innerHTML = '';
-  experiences.forEach(e => {
-    const period = e.start ? (e.start + ' – ' + (e.end || '재직중')) : '기간을 입력해 주세요';
-    const card = document.createElement('div');
-    card.className = 'exp-card';
-    card.innerHTML = `
-      <div class="exp-left">
-        <div class="exp-company">${e.company}</div>
-        <div class="exp-role">${e.role}</div>
-        <div class="exp-period">📅 ${period}</div>
-      </div>
-      `;
-    list.appendChild(card);
-  });
-}
-
-function openModal(id){
-  editingId = id||null;
-  document.getElementById('modalTitle').textContent = id ? '경력 수정' : '경력 추가';
-  if(id){
-    const e = experiences.find(x=>x.id===id);
-    document.getElementById('inp-company').value=e.company;
-    document.getElementById('inp-role').value=e.role;
-    document.getElementById('inp-start').value=e.start;
-    document.getElementById('inp-end').value=e.end;
-  } else {
-    ['inp-company','inp-role','inp-start','inp-end'].forEach(k=>document.getElementById(k).value='');
-  }
-  document.getElementById('modalOverlay').classList.add('active');
-}
-function closeModal(){document.getElementById('modalOverlay').classList.remove('active')}
-function closeModalOutside(e){if(e.target===document.getElementById('modalOverlay'))closeModal()}
-function editExp(id){openModal(id)}
-function deleteExp(id){
-  if(confirm('이 경력을 삭제할까요?')){
-    experiences=experiences.filter(e=>e.id!==id);render();
-  }
-}
-function saveExp(){
-  const company=document.getElementById('inp-company').value.trim();
-  const role=document.getElementById('inp-role').value.trim();
-  const start=document.getElementById('inp-start').value.trim();
-  const end=document.getElementById('inp-end').value.trim();
-  if(!company||!role){alert('회사명과 직무는 필수입니다.');return;}
-  if(editingId){
-    const e=experiences.find(x=>x.id===editingId);
-    e.company=company;e.role=role;e.start=start;e.end=end;
-  } else {
-    experiences.push({id:Date.now(),company,role,start,end});
-  }
-  closeModal();render();
-}
-
-/* ── PROFILE PHOTO ── */
-function uploadPhoto(e){
-  const file=e.target.files[0];
-  if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    const img=document.getElementById('photoImg');
-    img.src=ev.target.result;
-    img.style.display='block';
-    document.getElementById('photoPlaceholder').style.display='none';
-    document.getElementById('photoHint').textContent='클릭하여 사진 변경';
-    document.getElementById('photoRemoveBtn').style.display='inline-block';
-  };
-  reader.readAsDataURL(file);
-}
-function removePhoto(){
-  document.getElementById('photoImg').src='';
-  document.getElementById('photoImg').style.display='none';
-  document.getElementById('photoPlaceholder').style.display='flex';
-  document.getElementById('photoHint').textContent='JPG · PNG · GIF 지원';
-  document.getElementById('photoRemoveBtn').style.display='none';
-  document.getElementById('photoInput').value='';
-}
-
-/* ── YOUTUBE ── */
-/* 유튜브 영상은 여기서만 관리합니다 (방문자에게는 추가/제거 버튼이 보이지 않음)
-   - 추가: 해당 칸에 영상 ID 입력 (예: https://youtu.be/XXXX → 'XXXX')
-   - 제거: 값을 '' 로 비우기 */
-const ytState = {'yt-solo':'lpOlYOBH-10', 'yt-team':'_c5XmK_zT80', 'yt-unirun':'9dX-jGunsVo', 'yt-vrbs':'8gbsfgdyqcA',
-  /* 아래에 유튜브 영상 ID 입력 (예: youtu.be/XXXX 의 XXXX) */
-  'yt-dustecho':'4SKpVD0E5cM', 'yt-bowling':'GUdTApEN7Sw', 'yt-solpick':'', 'yt-picknpick':''};
-
-function renderYt(containerId){
-  const el=document.getElementById(containerId);
-  if(!el) return;
-  const id=ytState[containerId];
-  el.innerHTML = id ? `
-      <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/${id}" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>
-      </div>` : '';
-}
-
-function uploadIcon(e, imgId, placeholderId, removeId){
-  const file=e.target.files[0];
-  if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    const img=document.getElementById(imgId);
-    img.src=ev.target.result;
-    img.style.display='block';
-    document.getElementById(placeholderId).style.display='none';
-    document.getElementById(removeId).style.display='inline-block';
-  };
-  reader.readAsDataURL(file);
-}
-function removeIcon(imgId, placeholderId, removeId, inputId){
-  document.getElementById(imgId).src='';
-  document.getElementById(imgId).style.display='none';
-  document.getElementById(placeholderId).style.display='flex';
-  document.getElementById(removeId).style.display='none';
-  document.getElementById(inputId).value='';
-}
-
-/* ── PROJECT DETAIL SCREENSHOTS ── */
-function addScreenshots(e, galleryId){
-  const files=Array.from(e.target.files||[]);
-  const gallery=document.getElementById(galleryId);
-  files.forEach(file=>{
-    const reader=new FileReader();
-    reader.onload=ev=>{
-      const item=document.createElement('div');
-      item.className='screenshot-item';
-      item.innerHTML=`<img src="${ev.target.result}" alt="스크린샷"/><button class="screenshot-remove" onclick="this.parentElement.remove()">✕</button>`;
-      gallery.appendChild(item);
-    };
-    reader.readAsDataURL(file);
-  });
-  e.target.value='';
-}
-
-/* ── INIT ── */
-render();
-renderYt('yt-solo');
-renderYt('yt-team');
-renderYt('yt-unirun');
-renderYt('yt-vrbs');
-renderYt('yt-dustecho');
-renderYt('yt-bowling');
-renderYt('yt-solpick');
-renderYt('yt-picknpick');
-</script>
+<!-- ① 내용 데이터 (수정은 대부분 여기서) -->
+<script src="js/data/profile.js"></script>
+<script src="js/data/experience.js"></script>
+<script src="js/data/projects.js"></script>
+<script src="js/data/apps.js"></script>
+<script src="js/data/background-code.js"></script>
+<!-- ② 화면 동작 -->
+<script src="js/background.js"></script>
+<script src="js/render.js"></script>
+<script src="js/lightbox.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

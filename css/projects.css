@@ -1,0 +1,77 @@
+/* ================================================================
+   projects.css — 프로젝트 / 앱 카드와 상세 내용
+   ================================================================ */
+
+/* ── 카드 목록 ── */
+.proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+.proj-card { overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: transform .25s, border-color .25s, box-shadow .25s; }
+.proj-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 8px 32px rgba(124, 106, 247, .15); }
+.proj-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: 1.4rem 1.5rem; border-bottom: 1px solid var(--border); background: linear-gradient(135deg, rgba(124, 106, 247, .18), rgba(124, 106, 247, .03)); }
+.proj-head > div { min-width: 0; }
+.proj-icon { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; flex-shrink: 0; background: var(--bg2); overflow: hidden; color: transparent; }
+.proj-title { font-size: 1.2rem; font-weight: 700; }
+.proj-body { padding: 1.4rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; flex: 1; }
+
+/* 태그 */
+.tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+.tag { display: inline-block; font: 600 .72rem var(--mono); padding: .15rem .6rem; border-radius: 4px; border: 1px solid var(--border); color: var(--text); }
+.tag-game   { color: var(--term); border-color: rgba(74, 222, 128, .35); background: rgba(74, 222, 128, .08); }
+.tag-team   { color: var(--accent2); border-color: rgba(124, 106, 247, .4); background: rgba(124, 106, 247, .12); }
+.tag-app    { color: #7dd3fc; border-color: rgba(56, 189, 248, .35); background: rgba(56, 189, 248, .1); }
+.tag-badge  { color: #fcd34d; border-color: rgba(251, 191, 36, .45); background: rgba(251, 191, 36, .12); }
+.proj-head .tags { margin-bottom: .5rem; }
+
+/* 기간·장르 등 */
+.meta { list-style: none; display: flex; flex-direction: column; gap: .35rem; font-size: .84rem; }
+.meta li { display: flex; gap: .5rem; }
+
+/* 유튜브 */
+.yt { border-radius: 10px; overflow: hidden; background: #000; aspect-ratio: 16 / 9; }
+.yt iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* 카드 하단 버튼 */
+.card-actions { display: flex; flex-wrap: wrap; align-items: flex-start; align-content: flex-start; gap: .5rem; margin-top: auto; }
+.link-btn { display: inline-block; line-height: 1.4; font: .8rem/1.4 var(--mono); color: var(--accent2); text-decoration: none; border: 1px solid rgba(124, 106, 247, .35); padding: .4rem .85rem; border-radius: 6px; background: none; cursor: pointer; transition: background .2s; }
+.link-btn:hover { background: rgba(124, 106, 247, .15); }
+.link-btn.to-detail { color: var(--term); border-color: rgba(74, 222, 128, .4); }
+.link-btn.to-detail:hover { background: rgba(74, 222, 128, .1); }
+
+/* ── 상세 내용 ── */
+.detail-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 2rem; }
+.detail { padding: 2rem; transition: border-color .4s, box-shadow .4s; }
+.detail.flash { border-color: var(--term); box-shadow: 0 0 0 1px var(--term), 0 0 40px rgba(74, 222, 128, .15); }
+.detail-head { display: flex; align-items: center; gap: 1rem; padding-bottom: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+.detail-head > div { flex: 1; min-width: 0; }
+.detail-title { font-size: 1.3rem; font-weight: 700; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.detail-path { font: .75rem var(--mono); color: var(--muted); }
+.back-btn { font: .75rem var(--mono); color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: .35rem .7rem; border-radius: 6px; white-space: nowrap; }
+.back-btn:hover { color: var(--accent2); border-color: var(--accent); }
+
+.detail-block + .detail-block { margin-top: 1.8rem; }
+.detail-block h4 { font: 600 .78rem var(--mono); color: var(--accent2); letter-spacing: .05em; margin-bottom: .7rem; }
+.detail-block h4::before { content: "## "; color: #4a4a66; }
+.detail-text, .bullets { color: var(--muted); font-size: .92rem; line-height: 1.75; max-width: 75ch; }
+.bullets { list-style: none; }
+.bullets li { padding-left: 1.1em; position: relative; }
+.bullets li::before { content: "·"; position: absolute; left: .2em; color: var(--accent2); }
+.work-title { color: var(--text); font-weight: 600; font-size: .95rem; margin-top: .8rem; }
+.work-title:first-child { margin-top: 0; }
+.site-list a { color: var(--accent2); text-decoration: none; word-break: break-all; }
+.site-list a:hover { text-decoration: underline; }
+
+/* 스크린샷 */
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .8rem; }
+.shot { position: relative; padding: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; aspect-ratio: 16 / 9; background: var(--bg2); cursor: zoom-in; transition: border-color .2s, transform .2s; }
+.shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot:hover { border-color: var(--accent2); transform: scale(1.02); }
+.shot::after { content: "⤢"; position: absolute; right: 6px; bottom: 4px; font-size: .8rem; color: #fff; opacity: 0; transition: opacity .2s; text-shadow: 0 1px 4px #000; }
+.shot:hover::after { opacity: .9; }
+.gallery.portrait { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+.gallery.portrait .shot { aspect-ratio: 9 / 16; }
+.gallery.portrait .shot img { object-fit: contain; }
+
+@media (max-width: 720px) {
+  .proj-grid { grid-template-columns: 1fr; }
+  .detail { padding: 1.4rem; }
+  .detail-head { flex-wrap: wrap; }
+}
